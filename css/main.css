@@ -1,0 +1,1590 @@
+/* =============== COMMON =============== */
+html {
+  --color-white: #fff;
+  --color-black: #000;
+  --color-font: #1d1d1d;
+  --color-font-darkgray: #6e6e6e;
+  --color-font-lightgray: #f5f5f5;
+  --color-link: #0071e3;
+  --color-link-focus: #81b9f1;
+  --color-border: #d2d2d2;
+  --color-header: #3a3a3a;
+  --color-section: #f5f5f5;
+  --color-shadow: rgba(0, 0, 0, 0.4);
+}
+html.fixed {
+  position: fixed;
+  /* 스크롤할 내용이 있든 없든 스크롤바는 무조건 뜨도록 */
+  overflow-y: scroll;
+  /* posa, posf는 너비가 줄어들려고 하기 때문에 width:100%로 잡아줘야 한다. */
+  width: 100%;
+}
+body {
+  height: 10000px;
+  /* 영문엔 Roboto 먼저 적용하고, 한글은 Roboto가 안 되므로 Noto Sans KR 쓰도록 */
+  font-family: "Roboto", "Noto Sans KR", sans-serif;
+  /* 기본값이 16px이지만, 명시적으로 폰트사이즈 지정 */
+  font-size: 16px;
+  /* 줄높이를 1로 고정하도록, 필요한 곳에서만 늘릴 생각이므로 */
+  line-height: 1;
+  word-break: keep-all;
+  color: var(--color-font);
+}
+a {
+  color: var(--color-font);
+  text-decoration: none;
+}
+img {
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+p {
+  /* 
+  기본적으로 위에서 body 내에서 줄높이를 1로 지정했지만, 이렇게 하면 문장을 줄바꿈 했을 때는 너무 간격이 좁음. 
+  그러므로 문자의 경우 p 태그를 사용하고, p 태그를 사용했다면 줄간격을 좀 더 늘려서 공통 스타일로 잡아둔다. 
+  */
+  line-height: 1.6;
+}
+sup {
+  margin-right: 6px;
+  /* em은 부모 요소에서 상속받은 크기임 1이 100%임 */
+  font-size: .7em;
+  vertical-align: top;
+}
+
+/* =============== COMMON / .INEER =============== */
+.inner {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 20px;
+  /* inner 내부에서 posa 사용할 애들이 있을 수 있으므로 */
+  position: relative;
+}
+
+/* =============== COMMON / .BTN =============== */
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 24px;
+  /* 내부 여백은 좌우만 10px */
+  padding: 0 10px;
+  border: none;
+  border-radius: 100px;
+  outline: none;
+  font-size: 11px;
+  /* 줄높이는 1배 */
+  line-height: 1;
+  color: var(--color-white);
+  background-color: var(--color-link);
+  cursor: pointer;
+}
+.btn:hover {
+  opacity: 0.7;
+}
+.btn:focus {
+  /* offset-x | offset-y | blur-radius | spread-radius | color */
+  /* 왜 box-shadow를 사용하냐면, outline보다 제어하기 쉽기 때문임. */
+  box-shadow: 0 0 0 4px var(--color-link-focus);
+}
+
+/* =============== COMMON / BACKGROUND IMAGE TEXT =============== */
+.bgtext {
+  /* 혹시 몰라서 가로/세로 너비를 가질 수 있어야 하므로 */
+  display: block;
+  text-indent: -9999px;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* 요소의 더 짧은 길이에 맞추는 개념 => 범위 안에서 이미지가 잘리지 않도록 하기 위함 */
+  background-size: contain;
+}
+
+/* =============== COMMON / LINKS =============== */
+
+/* link가 여러 개일 경우 나열해서 정리할 것임 */
+.links {
+  display: flex;
+  justify-content: center;
+  /* 아이템 간 사이 간격을 40px로 */
+  gap: 40px;
+}
+/* a 태그에 links 클래스가 있을 경우 */
+a.link {
+  color: var(--color-link);
+  font-size: 19px;
+  line-height: 1.3;
+}
+a.link:hover {
+  text-decoration: underline;
+}
+/* 링크 태그 우측(요소 뒤이므로 after)에 닫는 꺽쇄 모양 */
+a.link:after {
+  /* 띄어쓰기 + 꺽쇄모양 */
+  content: " >";
+}
+
+/* =============== COMMON / Feature =============== */
+.feature {
+  /* feature 안에 .figures와 infos를 정렬할 거임. */
+  /* 이렇게 하고 .figures에서 flex-grow:1을 줘서 .figures 부분 위치를 잡도록 할거임. */
+  display: flex;
+}
+
+/* =============== COMMON / Figures =============== */
+.figures {
+  flex-grow: 1;
+  position: relative;
+}
+.figures figure,
+.figures figcaption {
+  /* posa를 통해 언제든지 겹쳐질 수 있도록 (위치를 자유롭게 갖도록) */
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+/* .figures figcaption 내부에는 div를 쓸 수도 있고 다른 걸 쓸 수도 있으므로 전체 선택자 */
+.figures figcaption * {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* =============== COMMON / Infos =============== */
+.infos {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  /* z-index는 position이 있어야 함. */
+  z-index: 1;
+}
+/* 하이픈(-) 2번 쓰면 BEM 표기법으로 상태를 나타낼 때 */
+.infos.infos--center {
+  justify-content: center;
+}
+.infos.infos--end {
+  /* 세로방향인 상태에서 아이템을 위에서부터 쌓이므로 end면 아래로 위치시킨다는 의미이다. */
+  justify-content: flex-end;
+}
+/* 상황에 따라 .infos로 묶이지 않고 별도로 .info만 있는 애들도 있으므로 */
+.info {
+  max-width: 330px;
+  margin-bottom: 24px;
+  opacity: 0;
+  transition: 1s;
+  transform: translate(0, 100px);
+  /* 애니메이션 효과를 주기 위해 opacity:0으로 시작함. 전환효과 지속시간 1초 */
+  /* 그리고 살짝 아래로 내려가 있는 상태에서 시작 */
+}
+.info.show {
+  /* show 클래스가 붙으면 1로 다시 돌아오도록 */
+  opacity: 1;
+  transform: translate(0, 0);
+}
+.infos--large .info {
+  max-width: 410px;
+}
+.info .icon {
+  width: 100px;
+  height: 100px;
+  /* 아래,왼쪽을 당겨서 문장과 위치를 맞추기 위해서 */
+  margin: 0 0 -15px -30px;
+  animation: sprite-icon 3s steps(1) infinite;
+  /* 애니메이션 name, duration 그리고 자연지 않도록 보여주기 위해 steps()를 사용하고, 무한 반복하도록 함 */
+}
+.info .icon.icon--chip {
+  background-image: url("../images/sprite_chip.png");
+}
+.info .icon.icon--faster {
+  background-image: url("../images/sprite_faster.png");
+}
+.info .icon.icon--neural {
+  background-image: url("../images/sprite_neural.png");
+}
+.info .icon.icon--apps {
+  background-image: url("../images/sprite_apps.png");
+}
+.info .icon.icon--battery {
+  background-image: url("../images/sprite_battery.png");
+}
+.info .icon.icon--display {
+  background-image: url("../images/sprite_display.png");
+}
+.info .icon.icon--true-tone {
+  background-image: url("../images/sprite_true_tone.png");
+}
+.info .icon.icon--center-stage {
+  background-image: url("../images/sprite_center_stage.png");
+}
+.info .icon.icon--front-camera {
+  background-image: url("../images/sprite_front_camera.png");
+}
+.info .icon.icon--back-camera {
+  background-image: url("../images/sprite_back_camera.png");
+}
+.info .icon.icon--scan {
+  background-image: url("../images/sprite_scan.png");
+}
+.info .icon.icon--download {
+  background-image: url("../images/sprite_download.png");
+}
+.info .icon.icon--wifi {
+  background-image: url("../images/sprite_wifi.png");
+}
+.info .icon.icon--lte {
+  background-image: url("../images/sprite_lte.png");
+}
+.info .icon.icon--pencil {
+  background-image: url("../images/sprite_pencil.png");
+}
+.info .icon.icon--keyboard {
+  background-image: url("../images/sprite_keyboard.png");
+}
+.info .icon.icon--notes {
+  background-image: url("../images/sprite_notes.png");
+}
+.info .icon.icon--covers {
+  background-image: url("../images/sprite_covers.png");
+}
+.info p {
+  font-size: 21.5px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.info a.link {
+  /* a 태그는 인라인 요소이므로 여백을 못 갖는다. */
+  display: block;
+  margin-top: 44px;
+  font-size: 19.5px;
+}
+
+/* =============== COMMON / Whitebox =============== */
+.whitebox {
+  max-width: 1386px;
+  margin: 0 auto;
+  /* 내부여백 (위아래, 좌우) */
+  padding: 100px 30px;
+  border-radius: 30px;
+  box-sizing: border-box;
+  background-color: var(--color-white);
+}
+.whitebox.whitebox--transparent {
+  background-color: transparent;
+}
+.whitebox .icon {
+  margin-bottom: 20px;
+}
+.whitebox h1 {
+  font-size: 50px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.whitebox p {
+  margin-top: 20px;
+  font-size: 19px;
+}
+.whitebox a.link {
+  display: block;
+  margin-top: 26px;
+}
+
+/* =============== HEADER =============== */
+header {
+  /* header 안에서만 쓰는 변수 선언 */
+  --header-height: 44px;
+  background-color: var(--color-header);
+  position: relative;
+  z-index: 9;
+}
+header .inner {
+  /* 단순히 너비가 아니라 최대 너비로 설정하는 이유. 1020px 이하에서는 자동으로 요소의 너비에 맞춰질 수 있도록 */
+  max-width: 1020px;
+  /* 좌우 여백을 브라우저 자동으로 계산(너비도 있으므로 조건도 충족) */
+}
+header ul.menu {
+  height: var(--header-height);
+  display: flex;
+  justify-content: space-between;
+}
+/* 후손선택자( )로만 하면 그 안에 또 있는 li 들이 겹칠 수 있으므로 정확히 자식선택자(>) 사용하기 */
+header ul.menu > li {
+  display: flex;
+  position: relative;
+  transition: 0.4s;
+}
+header ul.menu > li > a {
+  /* 좌우 padding 값만 사용한다. */
+  padding: 0 10px;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  color: var(--color-font-lightgray);
+  opacity: 0.8;
+  text-decoration: none;
+}
+/* 일치 선택자(.) 다중 선택자(,) */
+header ul.menu > li.apple-logo > a,
+header ul.menu > li.search-starter > a,
+header ul.menu > li.basket-starter > a {
+  width: 14px;
+  /* -9999px은 대체 텍스트라는 일종의 약속 */
+  text-indent: -9999px;
+  background-repeat: no-repeat;
+  /* 좌우는 가운데 정렬, 위에서 13px */
+  background-position: center 13px;
+}
+header ul.menu > li.apple-logo > a {
+  background-image: url("../images/header_apple.svg");
+}
+header ul.menu > li.search-starter > a {
+  background-image: url("../images/header_search.svg");
+}
+header ul.menu > li.basket-starter > a {
+  background-image: url("../images/header_bag.svg");
+}
+header ul.menu > li > a:hover {
+  opacity: 1;
+}
+
+/* =============== HEADER / Menu / Basket =============== */
+header .basket {
+  width: 290px;
+  /* 좌우 위아래 */
+  padding: 10px 20px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  /* border 영역까지 포함하도록 해서 width가 290px이 되도록 */
+  box-sizing: border-box;
+  background-color: var(--color-white);
+  /* .basket의 부모 요소는 li.basket-starter이므로 가서 posr 확인해보기 */
+  position: absolute;
+  /* top: 100%면 부모 높이만큼 내려간다는 의미 */
+  top: calc(100% + 4px);
+  right: -6px;
+  transition: 0.4s;
+  visibility: hidden;
+  opacity: 0;
+}
+header .basket.show {
+  visibility: visible;
+  opacity: 1;
+}
+header .basket .arrow {
+  width: 20px;
+  height: 10px;
+  /* 사각형을 돌려서 만들고 넘치는 부분을 지우면 뾰족한 부분만 남으므로 */
+  overflow: hidden;
+  position: absolute;
+  top: -10px;
+  right: 12px;
+}
+header .basket .arrow::before {
+  content: "";
+  width: 12px;
+  height: 12px;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-white);
+  transform: rotate(45deg);
+  /* x축:0 y축:0 */
+  transform-origin: 0 0;
+  position: absolute;
+  top: 0;
+  left: 50%;
+}
+header .basket .message {
+  /* 내부 여백 : 위아래30px 좌우0 */
+  padding: 30px 0;
+  font-size: 13px;
+  color: var(--color-font-darkgray);
+  text-align: center;
+}
+header .basket ul {
+  margin-top: 10px;
+}
+header .basket ul li {
+  border-top: 1px solid var(--color-border);
+}
+header .basket ul li a {
+  /* a태그(인라인요소)에 padding 적용하려면 block으로 */
+  display: block;
+  padding: 14px;
+  font-size: 13px;
+  color: var(--color-link);
+}
+header .basket ul li a:hover {
+  text-decoration: underline;
+}
+
+/* =============== HEADER / Search =============== */
+header .search-wrap {
+  /* 부모 요소는 header .inner => 여기에 아무것도 없으면 posr 적용하기 */
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* position 값이 있으면 가로너비가 최대한 줄어들려고 시도하므로, inner 영역 차지할 수 있게 100% 할당 */
+  width: 100%;
+  /* display:none으로는 전환효과 자연스럽게 녹여내지 못하므로 */
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.4s;
+}
+header .search {
+  /* 680px 보다는 커질 수 없지만, 그 이하로는 작아질 수 있게 */
+  max-width: 680px;
+  /* 위아래 0 좌우 auto로 정렬 */
+  margin: 0 auto;
+  position: relative;
+}
+header .search .shadow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* 색상이랑 투명도 같이 적용하려면 rgba */
+  background-color: var(--color-shadow);
+}
+header .search .textfield {
+  position: relative;
+}
+header .search input {
+  width: 100%;
+  height: var(--header-height);
+  /* 좌우만 각각 40px을 넣어서 여기에 아이콘(검색, 삭제 버튼)들이 들어갈거임 */
+  padding: 0 40px;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+  background-color: transparent;
+  font-size: 17px;
+  color: var(--color-white);
+}
+header .search .search-icon {
+  width: 40px;
+  height: var(--header-height);
+  background-image: url("../images/header_search.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0.4;
+}
+header .search .search-closer {
+  width: 40px;
+  height: var(--header-height);
+  background-image: url("../images/header_close.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  opacity: 0.4;
+  cursor: pointer;
+}
+header .search .search-closer:hover {
+  opacity: 1;
+}
+header .search .autocompletes {
+  width: 100%;
+  /* 내부여백 : 위 좌우 아래 */
+  padding: 26px 40px 20px;
+  /* 좌측상단 우측상단 우측하단 좌측하단 (시계방향) */
+  border-radius: 0 0 18px 18px;
+  box-sizing: border-box;
+  background-color: var(--color-white);
+  /* 부모 요소는 .search */
+  position: absolute;
+  top: var(--header-height);
+  left: 0;
+}
+header .search .autocompletes h3 {
+  font-size: 12px;
+  color: var(--color-font-darkgray);
+  margin-bottom: 12px;
+}
+header .search .autocompletes ul li a {
+  display: block;
+  /* 좌우로 오히려 늘어날 수 있게 -값 부여 */
+  margin: 0 -14px;
+  /* 시계방향 => 위 우 하 좌 (우측만 내부 여백 없도록) */
+  padding: 10px 0 10px 30px;
+  font-size: 14px;
+  cursor: pointer;
+}
+header .search .autocompletes ul li:hover a {
+  background-color: var(--color-section);
+  color: var(--color-link);
+}
+/* 검색 창 내부 애니메이션(검색창 열리기 전) */
+header .search input,
+header .search .search-icon,
+header .search .autocompletes h3,
+header .search .autocompletes li {
+  transition: 0.6s;
+  /* translate은 이동해주는 함수 => translate(x축 이동값, y축 이동값) */
+  /* 일단 우측으로 이동해뒀다가 검색창이 열리면(searching 클래스 붙으면) 다시 뒤로 이동하는 방법으로 */
+  transform: translate(100px, 0);
+}
+header.searching ul.menu > li {
+  opacity: 0;
+  /* 단순히 사라지는 것 말고도 좀 작아질 수 있게 scale(1)이 기본값임 */
+  transform: scale(0.7);
+}
+header.searching .search-wrap {
+  visibility: visible;
+  opacity: 1;
+  /* 메뉴 목록이 등장하는 애니메이션과 검색창 내부 애니메이션이 동시에 나타나면 애니메이션되는지 모를 수 있으므로 검색창은 딜레이를 좀 더 줘야 한다. */
+  /* 대신 이건 나타날 때만 주는 거고, 검색창을 지울 때는 바로 지워야 하므로 딜레이 안주고 여기에만 줬음 */
+  transition-delay: 0.2s;
+}
+
+/* 검색 창 내부 애니메이션(검색창 열리면) */
+header.searching .search input,
+header.searching .search .search-icon,
+header.searching .search .autocompletes h3,
+header.searching .search .autocompletes li {
+  transform: translate(0, 0);
+  /* 마찬가지로 열려 있을 때는 delay를 주므로, 검색창이 사라질 때는 바로 사라진다. */
+  transition-delay: 0.2s;
+}
+
+/* =============== NAVIGATION =============== */
+nav {
+  /* blur 처리를 해야 하므로 투명도를 넣어야 한다. */
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--color-border);
+  /* 현재 nav 태그의 부모는 body 태그이므로, 항상 위에 붙을 수 있음. */
+  position: sticky;
+  top: 0;
+  /* nav가 항상 위에 있어야 하므로 */
+  z-index: 8;
+}
+nav .inner {
+  max-width: 1000px;
+  height: 52px;
+  /* .inner 내부 요소 가로 정렬 */
+  display: flex;
+  /* 교차축(현재 세로) 정렬 */
+  align-items: center;
+}
+nav h1 {
+  /* h1은 최대한 늘어나야 하므로(나머지 애들을 우측으로 밀어냄) 기본값이 0인데 1을 할당 */
+  flex-grow: 1;
+  font-size: 22px;
+  font-weight: 500;
+}
+nav .menu {
+  /* .menu 내부 요소(li) 가로 정렬 */
+  display: flex;
+  /* menu 안에 있는 li들이 서로 간격을 갖도록 */
+  gap: 12px;
+  /* 외부 여백을 줘서 button과의 거리 간격 갖도록 */
+  margin-right: 18px;
+}
+nav .menu li a {
+  display: block;
+  /* a 태그는 margin/padding 못 쓰므로 block으로 해줘야 한다. */
+  padding: 6px;
+  font-size: 11px;
+}
+nav .menu li:hover a {
+  color: var(--color-link);
+}
+/* 현재 선택된 페이지라는 의미로 */
+nav .menu li.active a {
+  opacity: 0.5;
+  cursor: default;
+}
+/* 현재 선택된 페이지는 마우스를 갖다대도 글자색상 변하면 안 된다. */
+nav .menu li.active:hover a {
+  color: var(--color-font);
+}
+
+/* =============== MAIN =============== */
+main {
+  /* main 태그는 block 요소이므로 최대한 늘어나되, 넘치는 부분은 hidden 처리 */
+  overflow-x: hidden;
+}
+
+/* =============== HERO =============== */
+.hero {
+  background-color: var(--color-section);
+}
+.hero .inner {
+  padding-bottom: 110px;
+}
+.hero h1 {
+  width: 221px;
+  height: 91px;
+  /* iPad 텍스트 대신 이미지를 삽입할 것임 */
+  background-image: url("../images/hero_ipad_text.png");
+  position: absolute;
+  /* posa에서 무조건 top/left 이런거 안 쓰고 이동함수만 써도 된다. */
+  transform: translate(624px, 235px);
+  /* 배경보다 글자가 위에 올라와야 하므로 */
+  z-index: 1;
+}
+.hero .figures {
+  height: 808px;
+}
+.hero figure {
+  /* 이동함수 : translate(x, y) */
+  transform: translate(74px, -64px);
+}
+.hero figure figcaption .caption-camera {
+  transform: translate(43px, 580px);
+  background-image: url("../images/hero_ipad_caption_camera.png");
+  /* 배경이미지를 넣었으면 이미지 파일만큼 크기를 넣어줘야 함 */
+  width: 120px;
+  height: 84px;
+}
+.hero figure figcaption .caption-chip {
+  transform: translate(589px, 510px);
+  background-image: url("../images/hero_ipad_caption_chip.png");
+  width: 95px;
+  height: 43px;
+}
+.hero figure figcaption .caption-storage {
+  transform: translate(627px, 631px);
+  background-image: url("../images/hero_ipad_caption_storage.png");
+  width: 80px;
+  height: 43px;
+}
+.hero h2 {
+  width: 738px;
+  height: 145px;
+  /* 가운데 정렬 */
+  margin: 0 auto;
+  background-image: url("../images/hero_headline.png");
+}
+.hero p.pricing {
+  margin-top: 40px;
+  font-size: 24px;
+  font-weight: 600;
+  text-align: center;
+}
+.hero p.description {
+  /* .inner의 너비 안에서 88%를 차지하면서 가운데 정렬됨 */
+  /* 글자 줄바꿈을 하려는 건데, 단순히 <br> 태그를 사용해도 되지만 이렇게 영역을 제한해서 줄바꿈을 의도할 수도 있다. */
+  /* 88%로 잡으면 "함께할 수 있도록"까지만 작성되고 "디자인되었습니다"는 줄바꿈돼서 작성된다. */
+  /* 이렇게 하면 br 태그를 여러 개 작성하지 않고도 단순히 % 수치만 변경해서 여러 상황을 대응할 수 있음. */
+  width: 88%;
+  /* 위 좌우 아래 */
+  margin: 18px auto 0;
+  font-size: 19px;
+  text-align: center;
+}
+.hero .links {
+  margin-top: 30px;
+}
+
+/* =============== POWER =============== */
+.power {
+  margin-top: 110px;
+}
+
+/* =============== POWER / MULTIPLE-APPS =============== */
+.power .multiple-apps h1 {
+  width: 500px;
+  height: 280px;
+  background-image: url("../images/power_headline.png");
+  transform: translate(104px, 0);
+}
+.power .multiple-apps .figures {
+  height: 773px;
+}
+.power .multiple-apps figcaption {
+  width: 138px;
+  height: 46px;
+  background-image: url("../images/power_multiple_apps_caption.png");
+  transform: translate(703px, -47px);
+}
+
+/* =============== POWER / ARCADE =============== */
+.power .arcade {
+  margin-top: 55px;
+}
+.power .arcade .figures {
+  height: 600px;
+}
+.power .arcade figure {
+  transform: translate(-347px, -90px);
+}
+.power .arcade figcaption {
+  width: 150px;
+  height: 77px;
+  background-image: url("../images/power_arcade_caption.png");
+  transform: translate(483px, 653px);
+}
+
+/* =============== POWER / CREATE =============== */
+.power .create {
+  margin-top: 55px;
+}
+.power .create .figures {
+  height: 772px;
+}
+.power .create figure {
+  transform: translate(-25px, 50px);
+}
+.power .create figcaption {
+  background-image: url("../images/power_create_caption.png");
+  width: 142px;
+  height: 46px;
+  transform: translate(543px, 908px);
+}
+
+/* =============== DISPLAY =============== */
+.display {
+  margin-top: 450px;
+}
+/* =============== DISPLAY / NOTES =============== */
+.display .notes h1 {
+  background-image: url("../images/display_headline.png");
+  width: 630px;
+  height: 370px;
+  transform: translate(104px, 0);
+}
+.display .notes .figures {
+  height: 814px;
+  margin-top: 26px;
+}
+.display .notes figcaption {
+  background-image: url("../images/display_notes_caption.png");
+  width: 145px;
+  height: 45px;
+  transform: translate(707px, -16px);
+}
+/* =============== DISPLAY / SHAREPLAY =============== */
+.display .shareplay {
+  margin-top: 55px;
+}
+.display .shareplay .figures {
+  height: 630px;
+}
+.display .shareplay figure {
+  transform: translate(-360px, 0);
+}
+.display .shareplay figcaption {
+  background-image: url("../images/display_shareplay_caption.png");
+  width: 110px;
+  height: 48px;
+  transform: translate(300px, 658px);
+}
+
+/* =============== CAMERA =============== */
+.camera {
+  /* margin은 외부 여백 */
+  margin-top: 303px;
+}
+
+/* =============== CAMERA / STAGE =============== */
+.camera .stage {
+  position: relative;
+}
+.camera .stage h1 {
+  width: 650px;
+  height: 450px;
+  background-image: url("../images/camera_headline.png");
+  transform: translate(-25px, 0);
+}
+.camera .stage .info {
+  /* .info의 부모 요소는 .stage */
+  position: absolute;
+  top: 150px;
+  right: 0;
+}
+.camera .stage .figures {
+  height: 770px;
+  margin-top: 24px;
+}
+.camera .stage figure {
+  transform: translate(90px, 0);
+}
+.camera .stage video {
+  /* 부모 요소는 figure인데 figure는 공통 스타일에 pos 값이 적용되어 있으므로 */
+  position: absolute;
+  top: 36px;
+  left: 76px;
+  -webkit-mask-image: url("../images/camera_video_mask.png");
+  mask-image: url("../images/camera_video_mask.png");
+}
+.camera .stage .controller--play,
+.camera .stage .controller--pause {
+  color: var(--color-link);
+  cursor: pointer;
+  /* 재생(일시정지) 글자와 img 태그가 수평 정렬되도록 */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  /* translate 이동함수에다가 rotate으로 약간 회전까지 */
+  transform: translate(428px, -134px) rotate(-3deg);
+}
+.camera .stage .controller--play:hover,
+.camera .stage .controller--pause:hover {
+  text-decoration: underline;
+}
+.camera .stage .controller--play.hide,
+.camera .stage .controller--pause.hide {
+  display: none;
+}
+.camera .stage .controller--play img,
+.camera .stage .controller--pause img {
+  width: 20px;
+  margin-top: -2px;
+}
+.camera .stage figcaption {
+  width: 130px;
+  height: 110px;
+  background-image: url("../images/camera_hardware_caption.png");
+  transform: translate(-116px, 383px);
+}
+
+/* =============== CAMERA / EDIT =============== */
+.camera .edit .figures {
+  height: 910px;
+}
+.camera .edit figure {
+  transform: translate(20px, 0);
+}
+.camera .edit figcaption {
+  width: 130px;
+  height: 47px;
+  background-image: url("../images/camera_edit_caption.png");
+  transform: translate(27px, 905px);
+}
+
+/* =============== WIRELESS =============== */
+.wireless {
+  margin-top: 202px;
+}
+/* =============== WIRELESS / FACETIME =============== */
+.wireless .facetime h1 {
+  width: 730px;
+  height: 330px;
+  background-image: url("../images/wireless_headline.png");
+  transform: translate(104px, 0);
+}
+.wireless .facetime .figures {
+  height: 773px;
+}
+.wireless .facetime figure {
+  transform: translate(-68px, 0);
+}
+.wireless .facetime figcaption {
+  width: 139px;
+  height: 46px;
+  background-image: url("../images/wireless_facetime_caption.png");
+  transform: translate(843px, -49px);
+}
+/* =============== WIRELESS / FILES =============== */
+.wireless .files figure {
+  transform: translate(34px, -34px);
+}
+.wireless .files figcaption {
+  width: 127px;
+  height: 46px;
+  background-image: url("../images/wireless_files_caption.png");
+  transform: translate(96px, 639px);
+}
+
+/* =============== ACCESSORIES =============== */
+.accessories {
+  margin-top: 195px;
+}
+.accessories h1 {
+  width: 550px;
+  height: 343px;
+  background-image: url("../images/accessories_headline.png");
+  /* 해당 제목은 단순히 가운데 정렬만 하면 되므로 */
+  margin: 0 auto;
+}
+.accessories .figures {
+  height: 1021px;
+  margin-top: 34px;
+}
+.accessories figure {
+  transform: translate(-24px, 0);
+}
+.accessories figcaption .caption-memo {
+  width: 169px;
+  height: 41px;
+  background-image: url("../images/accessories_caption_memo.png");
+  transform: translate(790px, -52px);
+}
+.accessories figcaption .caption-supports {
+  width: 200px;
+  height: 70px;
+  background-image: url("../images/accessories_caption_supports.png");
+  transform: translate(163px, 821px);
+}
+.accessories .infos {
+  /* 공통 스타일은 column임. 여기서만 row로 하고 싶으므로 */
+  flex-direction: row;
+  /* 최대 너비를 초과하면 요소가 아래로 줄바꿈 되도록 */
+  flex-wrap: wrap;
+  /* 주축에 대한 정렬을 빈 공간을 각 요소가 균등하게 나눠갖도록 */
+  justify-content: space-around;
+}
+
+/* =============== iPadOS =============== */
+.ipados {
+  margin-top: 212px;
+}
+.ipados h1 {
+  width: 530px;
+  height: 400px;
+  background-image: url("../images/ipados_headline.png");
+  margin: 0 auto;
+}
+.ipados .infos {
+  margin-top: 44px;
+  /* infos는 주축이 세로이므로, 교차축인 가로를 end로 미뤄서 오른쪽에 위치하도록 함. */
+  align-items: flex-end;
+}
+.ipados .figures {
+  height: 782px;
+  display: flex;
+  /* 영역 확인을 위한 border */
+  /* border: 4px solid; */
+}
+/* > : 자식 선택자 */
+.ipados .figures > div {
+  /* 영역 확인을 위한 border */
+  /* border: 4px solid red; */
+  /* 증가너비 비율 기본값이 0인데, 1을 줘서 최대한 늘어나도록 함(부모 너비 전체 차지하도록 함.) */
+  flex-grow: 1;
+  /* 3개 각각의 div를 기준으로 figure들을 움직일 거라서 */
+  position: relative;
+}
+.ipados .figure-split-view figure {
+  /* 원래는 figure의 부모가 .figures였는데, 이번에는 div 태그가 figure의 부모임. posr 추가하기. */
+  transform: translate(-205px, -312px);
+}
+.ipados .figure-split-view figcaption {
+  width: 163px;
+  height: 53px;
+  background-image: url("../images/ipados_split_view_caption.png");
+  transform: translate(200px, -38px);
+}
+.ipados .figure-widgets figure {
+  transform: translate(237px, 43px);
+}
+.ipados .figure-widgets figcaption {
+  width: 161px;
+  height: 46px;
+  background-image: url("../images/ipados_widgets_caption.png");
+  transform: translate(257px, 497px);
+}
+.ipados .figure-quick-note figure {
+  transform: translate(-625px, 232px);
+}
+.ipados .figure-quick-note figcaption {
+  width: 82px;
+  height: 97px;
+  background-image: url("../images/ipados_quick_note_caption.png");
+  transform: translate(511px, 470px);
+}
+
+/* =============== APPS =============== */
+.apps {
+  margin-top: 368px;
+}
+.apps h1 {
+  width: 500px;
+  height: 264px;
+  background-image: url("../images/apps_headline.png");
+  transform: translate(17px, 0);
+}
+.apps .infos {
+  margin-top: 36px;
+  margin-left: 82px;
+}
+.apps .figures {
+  display: flex;
+  height: 788px;
+}
+.apps .figures > div {
+  flex-grow: 1;
+  position: relative;
+}
+.apps .figure-masterclass figure {
+  transform: translate(578px, -431px);
+}
+.apps .figure-masterclass figcaption {
+  width: 100px;
+  height: 25px;
+  background-image: url("../images/apps_masterclass_caption.png");
+  transform: translate(26px, 690px);
+}
+.apps .figure-adobe figure {
+  transform: translate(-515px, 85px);
+}
+.apps .figure-adobe figcaption {
+  width: 105px;
+  height: 24px;
+  background-image: url("../images/apps_adobe_caption.png");
+  transform: translate(544px, 514px);
+}
+.apps .figure-fantasian figure {
+  transform: translate(-103px, 318px);
+}
+.apps .figure-fantasian figcaption {
+  width: 74px;
+  height: 22px;
+  background-image: url("../images/apps_fantasian_caption.png");
+  transform: translate(24px, 483px);
+}
+.apps .figure-books figure {
+  transform: translate(-133px, -150px);
+}
+.apps .figure-books figcaption {
+  width: 50px;
+  height: 27px;
+  background-image: url("../images/apps_books_caption.png");
+  transform: translate(397px, 707px);
+}
+.apps .figure-goodnotes figure {
+  transform: translate(-93px, 68px);
+}
+.apps .figure-goodnotes figcaption {
+  background-image: url("../images/apps_goodnotes_caption.png");
+  transform: translate(24px, 690px);
+}
+
+/* =============== PRIVACY =============== */
+.privacy {
+  margin-top: 238px;
+}
+.privacy h1 {
+  width: 482px;
+  height: 237px;
+  background-image: url("../images/privacy_headline.png");
+  /* h1을 오른쪽으로 밀어넣고 */
+  margin-left: auto;
+  /* z-index 적용하려고 posr 잡고 */
+  position: relative;
+  z-index: 1;
+  /* .infos와 줄간격을 맞추기 위해 이동함수 사용 */
+  transform: translate(57px, 0);
+}
+.privacy .infos {
+  margin-top: 38px;
+  align-items: flex-end;
+  position: relative;
+  z-index: 1;
+}
+.privacy figure {
+  transform: translate(-215px, -500px);
+}
+.privacy figcaption .caption-apple-id {
+  width: 170px;
+  height: 26px;
+  background-image: url("../images/privacy_caption_apple_id.png");
+  transform: translate(195px, -13px);
+}
+.privacy figcaption .caption-touch-id {
+  width: 150px;
+  height: 31px;
+  background-image: url("../images/privacy_caption_touch_id.png");
+  transform: translate(533px, 485px);
+}
+
+/* =============== ACCESSIBILITY =============== */
+.accessibility {
+  margin-top: 266px;
+  margin-bottom: 170px;
+}
+.accessibility h1 {
+  width: 384px;
+  height: 270px;
+  background-image: url("../images/accessibility_headline.png");
+}
+.accessibility .infos {
+  /* 왼쪽에 배치하므로 따로 적용할 css가 많이 없음. */
+  margin-top: 20px;
+}
+.accessibility figure {
+  transform: translate(470px, -620px);
+}
+
+/* =============== AR =============== */
+.ar {
+  background-color: var(--color-section);
+  /* 내부여백 : 상 중(좌우) 하 */
+  padding: 20px 20px 0;
+}
+/* 아래쪽 여백은 사용하지 않을 것이므로 */
+.ar .whitebox {
+  padding-bottom: 0;
+}
+.ar .inner {
+  display: flex;
+}
+.ar .inner > div {
+  max-width: 410px;
+  margin-top: 60px;
+  margin-right: 90px;
+}
+
+/* =============== ENVIRONMENT =============== */
+.environment {
+  padding: 20px 20px 0;
+  background-color: var(--color-section);
+  text-align: center;
+}
+.environment .icon {
+  margin-left: auto;
+  margin-right: auto;
+}
+.environment h1 {
+  /* 얘는 여기서만 사용되므로, 따로 색상 변수로 설정하지 않음. */
+  color: #03A10E;
+}
+
+/* =============== ACCESSORY SHOP =============== */
+.accessory-shop {
+  background-color: var(--color-section);
+  text-align: center;
+}
+.accessory-shop .whitebox {
+  padding-bottom: 0;
+}
+.accessory-shop .inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.accessory-shop img {
+  margin-top: 50px;
+}
+
+/* =============== TRADE =============== */
+.trade {
+  padding: 20px 20px 0;
+  background-color: var(--color-section);
+  text-align: center;
+}
+
+/* =============== COMPARE =============== */
+.compare {
+  /* 위 좌우 아래 */
+  padding: 20px 20px 0;
+  background-color: var(--color-section);
+  text-align: center;
+}
+.compare .items {
+  display: flex;
+  /* 주축에 대한 정렬 */
+  justify-content: space-around;
+  max-width: 940px;
+  /* 위 좌우 아래 */
+  margin: 68px auto 74px;
+}
+.compare .item {
+  width: 190px;
+  padding-bottom: 34px;
+  border-bottom: 1px solid var(--color-border);
+}
+.compare .item .thumbnail {
+  height: 214px;
+  margin-bottom: 22px;
+  /* 이미지들을 가운데 정렬 */
+  display: flex;
+  justify-content: center;
+  /* 교차축인 세로는 아래로 붙도록 */
+  align-items: flex-end;
+}
+.compare .item ul.colors {
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+.compare .item ul.colors li {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: lightgray;
+  /* box-shadow는 기본적으로 요소 외부에 그림자를 만듦 */
+  /* 요소 내부에도 그림자를 만들고 싶으면 inset 키워드를 앞에 붙여주면 된다 */
+  box-shadow: inset 1px 1px 3px rgba(0, 0, 0, .1);
+}
+.compare .item h3.name {
+  margin-bottom: 4px;
+  font-size: 22px;
+}
+.compare .item .tagline {
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+.compare .item .price {
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+.compare .item .btn {
+  /* 외부 여백 : 위 좌우 아래 */
+  margin: 0 auto 14px;
+}
+.compare .item a.link {
+  font-size: 14px;
+}
+
+/* =============== FOOTER =============== */
+footer {
+  background-color: var(--color-section);
+}
+/* =============== FOOTER / BUYINFO =============== */
+footer .buy-info {
+  /* 위아래 좌우 */
+  padding: 76px 0;
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+  text-align: center;
+}
+footer .buy-info .icon {
+  width: 56px;
+  height: 56px;
+  /* 위 좌우 아래 */
+  margin: 0 auto 10px;
+}
+footer .buy-info h3 {
+  margin-bottom: 8px;
+  font-size: 18px;
+  font-weight: 600;
+}
+footer .buy-info p {
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+footer .buy-info a.link {
+  font-size: 14px;
+}
+/* =============== FOOTER / WARNING =============== */
+footer .warning {
+  /* 내부여백 : 위 좌우 아래 */
+  padding: 18px 0 10px;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+footer .warning ol {
+  /* rest.css로 기본 스타일 전부 제거했으므로 의도적으로 숫자 붙여줘야 한다. */
+  list-style: decimal;
+  /* 앞에 숫자를 붙여줄거니까 내부여백으로 좀 밀어 넣어야 함. */
+  padding-left: 16px;
+}
+footer .warning li {
+  margin-bottom: 10px;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--color-font-darkgray);
+}
+/* =============== FOOTER / BREADCRUMBS =============== */
+footer .breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  margin: 20px 0;
+}
+footer .breadcrumbs a {
+  font-size: 12px;
+  color: var(--color-font-darkgray);
+  position: relative;
+}
+footer .breadcrumbs a.apple-logo {
+  width: 16px;
+  height: 16px;
+  background-image: url("../images/path_apple.svg");
+}
+footer .breadcrumbs a:hover {
+  text-decoration: underline;
+}
+footer .breadcrumbs a::after {
+  /* content: "" 는 가상 요소를 만들고 내용을 비워놓는 것과 같음 */
+  /* <></> */
+  content: "";
+  width: 8px;
+  height: 18px;
+  background-image: url("../images/path_div.svg");
+  /* 가상 클래스의 부모 요소는 앞에 붙은 a가 되므로 posr 붙여줘야 함 */
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: -18px;
+  margin: auto;
+}
+footer .breadcrumbs a:last-child:after {
+  display: none;
+}
+/* =============== FOOTER / NAVIGATIONS =============== */
+footer .navigations {
+  margin-bottom: 40px;
+  height: 344px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: space-between;
+}
+footer .navigations .map {
+  margin-top: 24px;
+}
+/* 교육 탭 */
+footer .navigations .map:nth-child(6) {
+  padding-bottom: 100px;
+}
+footer .navigations .map h3 {
+  font-size: 12px;
+  font-weight: 600;
+}
+footer .navigations .map li {
+  margin-top: 12px;
+  font-size: 12px;
+}
+footer .navigations .map li a {
+  color: var(--color-font-darkgray);
+}
+footer .navigations .map li a:hover {
+  text-decoration: underline;
+}
+/* =============== FOOTER / 기타 정보 =============== */
+footer .how-to-shop {
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--color-font-darkgray);
+}
+footer .how-to-shop a {
+  color: var(--color-link);
+}
+footer .how-to-shop a:hover {
+  text-decoration: underline;
+}
+footer .legal {
+  margin-top: 10px;
+  padding: 10px 0 40px;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  gap: 50px;
+  font-size: 12px;
+  color: var(--color-font-darkgray);
+}
+footer .legal ul {
+  display: flex;
+  flex-grow: 1;
+  gap: 21px;
+}
+footer .legal ul li {
+  position: relative;
+}
+/* 구분선을 만들기 위해 */
+footer .legal ul li::after {
+  content: "|";
+  /* 여기 가상요소의 부모는 li임 */
+  position: absolute;
+  right: -11px;
+  color: var(--color-border);
+}
+footer .legal ul li:last-child:after {
+  display: none;
+}
+footer .legal ul li:hover a {
+  text-decoration: underline;
+}
+
+
+
+@keyframes sprite-icon {
+  /* 1~10 */
+  0.00% {
+    background-position: 0 0;
+  }
+  1.67% {
+    background-position: -100px 0;
+  }
+  3.33% {
+    background-position: -200px 0;
+  }
+  5.00% {
+    background-position: -300px 0;
+  }
+  6.67% {
+    background-position: -400px 0;
+  }
+  8.33% {
+    background-position: -500px 0;
+  }
+  10.00% {
+    background-position: 0 -100px;
+  }
+  11.67% {
+    background-position: -100px -100px;
+  }
+  13.33% {
+    background-position: -200px -100px;
+  }
+  15.00% {
+    background-position: -300px -100px;
+  }
+
+  /* 11~20 */
+  16.67% {
+    background-position: -400px -100px;
+  }
+  18.33% {
+    background-position: -500px -100px;
+  }
+  20.00% {
+    background-position: 0 -200px;
+  }
+  21.67% {
+    background-position: -100px -200px;
+  }
+  23.33% {
+    background-position: -200px -200px;
+  }
+  25.00% {
+    background-position: -300px -200px;
+  }
+  26.67% {
+    background-position: -400px -200px;
+  }
+  28.33% {
+    background-position: -500px -200px;
+  }
+  30.00% {
+    background-position: 0 -300px;
+  }
+  31.67% {
+    background-position: -100px -300px;
+  }
+
+  /* 21~30 */
+  33.33% {
+    background-position: -200px -300px;
+  }
+  35.00% {
+    background-position: -300px -300px;
+  }
+  36.67% {
+    background-position: -400px -300px;
+  }
+  38.33% {
+    background-position: -500px -300px;
+  }
+  40.00% {
+    background-position: 0 -400px;
+  }
+  41.67% {
+    background-position: -100px -400px;
+  }
+  43.33% {
+    background-position: -200px -400px;
+  }
+  45.00% {
+    background-position: -300px -400px;
+  }
+  46.67% {
+    background-position: -400px -400px;
+  }
+  48.33% {
+    background-position: -500px -400px;
+  }
+
+  /* 31~40 */
+  50.00% {
+    background-position: 0 -500px;
+  }
+  51.67% {
+    background-position: -100px -500px;
+  }
+  53.33% {
+    background-position: -200px -500px;
+  }
+  55.00% {
+    background-position: -300px -500px;
+  }
+  56.67% {
+    background-position: -400px -500px;
+  }
+  58.33% {
+    background-position: -500px -500px;
+  }
+  60.00% {
+    background-position: 0 -600px;
+  }
+  61.67% {
+    background-position: -100px -600px;
+  }
+  63.33% {
+    background-position: -200px -600px;
+  }
+  65.00% {
+    background-position: -300px -600px;
+  }
+
+  /* 41~50 */
+  66.67% {
+    background-position: -400px -600px;
+  }
+  68.33% {
+    background-position: -500px -600px;
+  }
+  70.00% {
+    background-position: 0 -700px;
+  }
+  71.67% {
+    background-position: -100px -700px;
+  }
+  73.33% {
+    background-position: -200px -700px;
+  }
+  75.00% {
+    background-position: -300px -700px;
+  }
+  76.67% {
+    background-position: -400px -700px;
+  }
+  78.33% {
+    background-position: -500px -700px;
+  }
+  80.00% {
+    background-position: 0 -800px;
+  }
+  81.67% {
+    background-position: -100px -800px;
+  }
+
+  /* 51~60 */
+  83.33% {
+    background-position: -200px -800px;
+  }
+  85.00% {
+    background-position: -300px -800px;
+  }
+  86.67% {
+    background-position: -400px -800px;
+  }
+  88.33% {
+    background-position: -500px -800px;
+  }
+  90.00% {
+    background-position: 0 -900px;
+  }
+  91.67% {
+    background-position: -100px -900px;
+  }
+  93.33% {
+    background-position: -200px -900px;
+  }
+  95.00% {
+    background-position: -300px -900px;
+  }
+  96.67% {
+    background-position: -400px -900px;
+  }
+  98.33% {
+    background-position: -500px -900px;
+  }
+}
