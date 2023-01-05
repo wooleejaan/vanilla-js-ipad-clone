@@ -4,6 +4,7 @@ html {
   --color-black: #000;
   --color-font: #1d1d1d;
   --color-font-darkgray: #6e6e6e;
+  --color-font-middlegray: #B7B7B7;
   --color-font-lightgray: #f5f5f5;
   --color-link: #0071e3;
   --color-link-focus: #81b9f1;
@@ -60,6 +61,12 @@ sup {
   padding: 0 20px;
   /* inner 내부에서 posa 사용할 애들이 있을 수 있으므로 */
   position: relative;
+}
+
+@media (max-width: 1000px) {
+  .inner {
+    max-width: 692px;
+  }
 }
 
 /* =============== COMMON / .BTN =============== */
@@ -124,11 +131,29 @@ a.link:after {
   content: " >";
 }
 
+@media (max-width: 740px) {
+  .links {
+    flex-direction: column;
+    /* row일 때는 중심축 정렬을 하면 됐는데, column으로 변경했으니 교차축 정렬을 해줘야 한다. */
+    align-items: center;
+    gap: 16px;
+  }
+  a.link {
+    font-size: 17px;
+  }
+}
+
 /* =============== COMMON / Feature =============== */
 .feature {
   /* feature 안에 .figures와 infos를 정렬할 거임. */
   /* 이렇게 하고 .figures에서 flex-grow:1을 줘서 .figures 부분 위치를 잡도록 할거임. */
   display: flex;
+}
+
+@media (max-width: 740px) {
+  .feature {
+    flex-direction: column;
+  }
 }
 
 /* =============== COMMON / Figures =============== */
@@ -148,6 +173,17 @@ a.link:after {
   position: absolute;
   top: 0;
   left: 0;
+}
+
+@media (max-width: 740px) {
+  .figures {
+    display: flex;
+    justify-content: center;
+  }
+  .figures figure {
+    /* 주변 요소와 상호작용하도록 즉, 수직으로 쌓을 것이므로 posa를 posr로 초기화 */
+    position: relative;
+  }
 }
 
 /* =============== COMMON / Infos =============== */
@@ -258,6 +294,43 @@ a.link:after {
   font-size: 19.5px;
 }
 
+@media (max-width: 1000px) {
+  /* 각 섹션마다 figure의 위치를 조정하고 
+  info 영역의 사이즈만 적절히 조정하면 
+  normal flow에 의해 자리를 적당히 찾아가게 됨 */
+  .info {
+    max-width: 230px;
+  }
+  .infos--large .info {
+    max-width: 288px;
+  }
+  .info .icon {
+    transform: scale(.8);
+    margin: -30px 0 -24px -32px;
+  }
+  .info p {
+    font-size: 19px;
+    line-height: 1.4;
+  }
+  .info a.link {
+    margin-top: 24px;
+  }
+}
+
+@media (max-width: 740px) {
+  .info {
+    /* 수직으로 쌓을거니까 max-width를 초기화 */
+    max-width: none;
+    padding: 0 20px;
+  }
+  .infos--large .info {
+    max-width: none;
+  }
+  .info a.link {
+    font-size: 17px;
+  }
+}
+
 /* =============== COMMON / Whitebox =============== */
 .whitebox {
   max-width: 1386px;
@@ -288,6 +361,24 @@ a.link:after {
   margin-top: 26px;
 }
 
+@media (max-width: 1000px) {
+  .whitebox {
+    padding: 60px 30px;
+  }
+  .whitebox .icon {
+    width: 44px;
+  }
+  .whitebox h1 {
+    font-size: 36px;
+  }
+}
+
+@media (max-width: 740px) {
+  .whitebox p {
+    font-size: 17px;
+  }
+}
+
 /* =============== HEADER =============== */
 header {
   /* header 안에서만 쓰는 변수 선언 */
@@ -295,6 +386,7 @@ header {
   background-color: var(--color-header);
   position: relative;
   z-index: 9;
+  transition: .4s;
 }
 header .inner {
   /* 단순히 너비가 아니라 최대 너비로 설정하는 이유. 1020px 이하에서는 자동으로 요소의 너비에 맞춰질 수 있도록 */
@@ -311,6 +403,9 @@ header ul.menu > li {
   display: flex;
   position: relative;
   transition: 0.4s;
+}
+header ul.menu > li.menu-starter {
+  display: none;
 }
 header ul.menu > li > a {
   /* 좌우 padding 값만 사용한다. */
@@ -516,6 +611,10 @@ header .search .autocompletes ul li:hover a {
   background-color: var(--color-section);
   color: var(--color-link);
 }
+header .clone-menu {
+  display: none;
+}
+/* =============== HEADER / Search Animation =============== */
 /* 검색 창 내부 애니메이션(검색창 열리기 전) */
 header .search input,
 header .search .search-icon,
@@ -549,6 +648,209 @@ header.searching .search .autocompletes li {
   transition-delay: 0.2s;
 }
 
+@media (max-width: 1000px) {
+  header .inner {
+    /* 이 구간에서도 nav 랑 콘텐츠 영역 라인이 맞도록 하기 위해서 여백을 약간 줄였음. */
+    padding: 0 10px;
+  }
+}
+@media (max-width: 740px) {
+  header::before {
+    content: "";
+    position: fixed;
+    /* 헤더 높이 만큼 내려가서 */
+    top: var(--header-height);
+    left: 0;
+    width: 100%;
+    /* 높이가 없으므로 평소에는 안 보이다가 버튼을 클릭하면 보여줄거임 */
+    height: 0;
+    background-color: var(--color-header);
+    transition: .4s;
+  }
+  /* 나머지 메뉴는 지우고 애플로고랑 장바구니로고만 남겨둘 거임 */
+  header ul.menu > li {
+    display: none;
+  }
+  header ul.menu > li.menu-starter,
+  header ul.menu > li.apple-logo,
+  header ul.menu > li.basket-starter {
+    /* 우리가 header ul.menu > li에 적용한 건 block이 아니라 flex이므로 */
+    display: flex;
+  } 
+  header ul.menu > li.menu-starter span {
+    /* span은 inline 요소이므로 바꿔줘야 한다. */
+    display: block;
+    /* 이렇게 하면 선처럼 출력 됨 */
+    width: 15px;
+    height: 1px;
+    background-color: var(--color-white);
+    margin-bottom: 6px;
+    transition: .4s;
+  }
+  header ul.menu > li.menu-starter span:last-child {
+    /* 마지막 애도 margin이 적용되면 위아래 정렬이 안 맞으므로 */
+    margin-bottom: 0;
+  }
+  header .search-wrap {
+    /* 위 좌우 아래 */
+    padding: 0 20px 14px;
+    border-bottom: 1px solid var(--color-header);
+    box-sizing: border-box;
+    top: var(--header-height);
+  }
+  header .search {
+    max-width: 590px;
+  }
+  header .shadow {
+    display: none;
+  }
+  header .search .textfield {
+    border-radius: 10px;
+    background-color: #1D1D1D;
+    width: 100%;
+    transition: .2s;
+  }
+  header .search .search-closer {
+    display: none;
+  }
+  header .search .search-canceler {
+    height: var(--header-height);
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    color: var(--color-link);
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transition: .4s;
+    visibility: hidden;
+    opacity: 0;
+  }
+  header .search input,
+  header .search .search-icon,
+  header .search .autocompletes h3,
+  header .search .autocompletes li { 
+    transform: translate(0, 0);
+  }
+  header .search .autocompletes {
+    top: 58px;
+    padding: 20px 0 20px;
+    background-color: transparent;
+    visibility: hidden;
+    opacity: 0;
+    transition: .3s;
+    transform: translate(0, -100px);
+  }
+  header .search .autocompletes ul li {
+    border-bottom: 1px solid var(--color-header);
+  }
+  header .search .autocompletes ul li:last-child {
+    border-bottom: none;
+  }
+  header .search .autocompletes ul li a {
+    /* 위 우 아래 좌 */
+    padding: 16px 0 16px 16px;
+    color: var(--color-font-middlegray);
+  }
+  header .search .autocompletes ul li:hover a {
+    /* 데스크탑 모드에서 흰색으로 해놨었으니까 초기화 */
+    background-color: transparent;
+    color: var(--color-link);
+  }
+  header .clone-menu {
+    /* 바로 보여주는 게 아니라 버튼을 클릭해야 보여주는 것이므로 */
+    display: block;
+    /* block을 줘서 화면에 보일 수 있는 구조는 만들되(원래 None이었으니까,
+    자연스러운 애니메이션 처리를 위해 visibiltiy랑 opacity를 조절 */
+    visibility: hidden;
+    opacity: 0;
+    /* 부모는 .inner이므로 posr 괜찮음 */
+    position: absolute;
+    top: 103px;
+    left: 0;
+    /* posa를 쓰면 가로너비가 최대한 줄어들려고 노력하므로 100%를 줘야 한다. */
+    width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+    transition: .4s;
+    transform: translate(0, -50px);
+  }
+  header .clone-menu ul {
+    max-width: 590px;
+    margin: 4px auto;
+  }
+  header .clone-menu ul li {
+    border-bottom: 1px solid var(--color-header);
+  }
+  header .clone-menu ul li:last-child {
+    border-bottom: none;
+  }
+  header .clone-menu ul li a {
+    padding: 16px 0;
+    /* inline은 여백 못 가지므로 */
+    display: block;
+    font-size: 14px;
+    color: var(--color-font-middlegray);
+  }
+  header .clone-menu ul li:hover a {
+    color: var(--color-white);
+  }
+  /* header에 menuing 클래스가 추가되면 */
+  header.menuing {
+    background-color: var(--color-black);
+  }
+  /* header에 menuing 클래스가 추가되면, 그때의 before 가상요소가 있으면 */
+  header.menuing::before {
+    height: 100vh;
+    background-color: var(--color-black);
+  } 
+  header.menuing ul.menu > li.basket-starter {
+    opacity: 0;
+    visibility: hidden;
+  } 
+  header.menuing ul.menu > li.menu-starter span:first-child {
+    transform: translate(0, 3.5px) rotate(45deg);
+  }
+  header.menuing ul.menu > li.menu-starter span:last-child {
+    transform: translate(0, -3.5px) rotate(-45deg);
+  }
+  /* 검색창도 보여지게 하기 위해서 */
+  header.menuing .search-wrap {
+    visibility: visible;
+    opacity: 1;
+  }
+  header.menuing .clone-menu {
+    visibility: visible;
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  header.menuing.searching--mobile {
+    /* header 자체를 위로 올려줄거임. */
+    /* 이렇게 전환효과를 줄거면 자연스러워지기 위해 header에 transition을 줘야 함. */
+    transform: translate(0, -30px);
+  }
+  header.menuing.searching--mobile .search .textfield {
+    /* 검색창 너비에서 취소 버튼 만큼 제거해서 겹치지 않도록 */
+    width: calc(100% - 55px);
+  }
+  header.menuing.searching--mobile .search .autocompletes {
+    visibility: visible;
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  header.menuing.searching--mobile .search .search-canceler {
+    visibility: visible;
+    opacity: 1;
+  }
+  header.menuing.searching--mobile .clone-menu {
+    visibility: hidden;
+    opacity: 0;
+    /* 아래로(y축은 양수가 아래로) 자연스럽게 사라지도록 */
+    transform: translate(0, 100px);
+  }
+}
+
 /* =============== NAVIGATION =============== */
 nav {
   /* blur 처리를 해야 하므로 투명도를 넣어야 한다. */
@@ -560,10 +862,12 @@ nav {
   top: 0;
   /* nav가 항상 위에 있어야 하므로 */
   z-index: 8;
+
+  --nav-height: 52px;
 }
 nav .inner {
   max-width: 1000px;
-  height: 52px;
+  height: var(--nav-height);
   /* .inner 내부 요소 가로 정렬 */
   display: flex;
   /* 교차축(현재 세로) 정렬 */
@@ -600,6 +904,116 @@ nav .menu li.active a {
 /* 현재 선택된 페이지는 마우스를 갖다대도 글자색상 변하면 안 된다. */
 nav .menu li.active:hover a {
   color: var(--color-font);
+}
+
+@media (max-width: 740px) {
+  nav .shadow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: var(--color-shadow);
+    visibility: hidden;
+    opacity: 0;
+    transition: .4s;
+  }
+  nav .contents-bg {
+    /* 부모인 nav는 pos sticky 있으므로 괜찮음 */
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* posa 썼을 때 줄여들려고 할테니까 */
+    width: 100%;
+    height: var(--nav-height);
+    border-bottom: 1px solid var(--color-border);
+    background-color: var(--color-white);
+    visibility: hidden;
+    transition: .4s;
+  }
+  nav .menu-toggler {
+    width: 30px;
+    height: 24px;
+    margin-right: 10px;
+    cursor: pointer;
+    position: relative;
+  }
+  nav .menu-toggler::before,
+  nav .menu-toggler::after {
+    content: "";
+    display: block;
+    width: 11px;
+    height: 1px;
+    background-color: var(--color-font-darkgray);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    /* 상하좌우 0 주고 margin: auto 주면 가운데에 배치됨 */
+    margin: auto;
+    /* 토글 버튼 누르면 v에서 ㅅ으로 변경되는 애니메이션 추가할 것이므로 */
+    transition: .4s;
+  }
+  nav .menu-toggler::before {
+    transform: rotate(40deg);  
+    left: -9px;
+  }
+  nav .menu-toggler::after {
+    transform: rotate(-40deg);  
+    right: -9px;
+  }
+  nav .menu {
+    /* 버튼을 누르면 다시 보여줄꺼니까 display는 건드리지 않는다. */
+    visibility: hidden;
+    opacity: 0;
+    /* 모바일에서는 높이만큼 하단으로 내려서 보여줄 거니까 */
+    position: absolute;
+    top: var(--nav-height);
+    left: 0;
+    /* posa는 줄어드려고 하므로 100%를 줘야 한다. */
+    width: 100%;
+    /* 내부여백 : 위 좌우 아래 */
+    padding: 10px 40px 30px;
+    /* 내부여백 늘어난 만큼 크기가 커지지 않도록 */
+    box-sizing: border-box;
+    /* 데스크탑 모드에서는 flex를 줘서 가로정렬했는데, 여기서는 세로 정렬할거임. 
+    이때는 그냥 block을 주면 세로정렬이므로 */
+    display: block;
+    /* 아래에서 위로 나타나는 애니메이션을 위해 */
+    transform: translate(0, -50px);
+    transition: .4s;
+  }
+  nav .menu li {
+    border-bottom: 1px solid var(--color-border);
+  }
+  nav .menu li:last-child {
+    border-bottom: none;
+  }
+  nav .menu li a {
+    /* 위아래 좌우 */
+    padding: 16px 0;
+    font-size: 14px;
+  }
+  nav.menuing .shadow {
+    visibility: visible;
+    opacity: 1;
+  }
+  nav.menuing .contents-bg {
+    visibility: visible;
+    height: 232px;
+  }
+  nav.menuing .menu {
+    visibility: visible;
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  nav.menuing .menu-toggler::before {
+    transform: rotate(-40deg);  
+  }
+  nav.menuing .menu-toggler::after {
+    transform: rotate(40deg);  
+  }
 }
 
 /* =============== MAIN =============== */
@@ -680,6 +1094,105 @@ main {
   margin-top: 30px;
 }
 
+@media (max-width: 1000px) {
+  .hero .inner {
+    /* 110 에서 80으로 줄여준다. */
+    padding-bottom: 80px;
+  }
+  .hero h1 {
+    /* 이미지로 글자를 만들었기에 + 그리고 .bgtext에서 background-size를 contain으로 만들었으므로
+    contain은 가로세로 중 더 짧은 길이에 맞추므로, 요소 크기가 줄어도 이미지 보존됨. 
+    width, height만 조정하면 줄일 수 있음. */
+    width: 166px;
+    height: 68px;
+    /* 줄어든 크기에 맞게 새로운 위치에 배치되어야 함. */
+    transform: translate(448px, 165px);
+  }
+  .hero .figures {
+    height: 584px;
+    margin-bottom: 14px;
+  }
+  .hero figure {
+    transform: translate(70px, -24px);
+  }
+  .hero figure img {
+    width: 540px;
+  }
+  .hero figure figcaption .caption-camera {
+    /* scale의 기본값은 1 */
+    /* figcaption은 가로세로를 조정하기보다는 스케일을 조정할거임. */
+    transform: scale(.8) translate(-9px, 524px);
+  }
+  .hero figure figcaption .caption-chip {
+    transform: scale(.8) translate(510px, 422px);
+  }
+  .hero figure figcaption .caption-storage {
+    transform: scale(.8) translate(556px, 556px);
+  }
+  .hero h2 {
+    width: 515px;
+    height: 95px;
+  }
+}
+
+@media (max-width: 740px) {
+  .hero .inner {
+    padding-top: 40px;
+  }
+  .hero h1 {
+    /* 이제는 이동함수는 안 쓰고 가운데 정렬만 해줄 거임. */
+    transform: none;
+    /* 그전에는 다른 요소와 상호작용하지 않고 이동하기 위해 posa를 썼지만
+    모바일에서는 단순히 위에서 아래로 쌓이는 구조를 만들거임. 
+    그러므로 position도 기본값인 static으로 */
+    /* 이렇게 원래 상태로 되돌려 놓으려면 기본값을 알아야 한다. */
+    position: static;
+    /* 위 좌우 아래 */
+    margin: 0 auto 40px;
+  }
+  .hero .figures {
+    /* 높이 값도 초기화 */
+    height: auto;
+    margin-bottom: 100px;
+  }
+  .hero figure {
+    /* 이동함수 사용 안 할 것이므로 */
+    transform: none;
+  }
+  .hero figure img {
+    width: 337px;
+  }
+  .hero figure figcaption .caption-camera {
+    width: 180px;
+    height: 37px;
+    background-image: url("../images/hero_ipad_caption_camera_mobile.png");
+    /* 이번에 Scale의 경우 데스크탑 이미지를 모바일에서도 쓰려고 줄이는 게 아니라 새로운 이미지를 쓰는 거니까 
+    1로 되돌려 놔야 한다 */
+    transform: scale(1) translate(21px, 368px);
+  }
+  .hero figure figcaption .caption-chip {
+    /* 여기는 새로운 이미지가 아니라 기존 데스크탑 이미지를 사용할 것임 */
+    transform: scale(.8) translate(248px, 42px);
+  }
+  .hero figure figcaption .caption-storage {
+    transform: scale(.8) translate(288px, 168px);
+  }
+  .hero h2 {
+    /* 다른 이미지 사용할 거임 */
+    background-image: url("../images/hero_headline_mobile.png");
+    width: 295px;
+    height: 185px;
+  }
+  .hero p.pricing {
+    font-size: 20px;
+  }
+  .hero p.description {
+    /* 데스크탑 모드에서는 width: 88%로 썼는데 모바일에서는 초기화해주고 */
+    width: auto;
+    font-size: 17px;
+  }
+}
+
 /* =============== POWER =============== */
 .power {
   margin-top: 110px;
@@ -736,6 +1249,110 @@ main {
   transform: translate(543px, 908px);
 }
 
+@media (max-width: 1000px) {
+  .power {
+    margin-top: 80px;
+  }
+  .power .multiple-apps h1 {
+    width: 310px;
+    height: 180px;
+  }
+  .power .multiple-apps .figures {
+    height: 503px;
+  }
+  .power .multiple-apps figure {
+    transform: translate(71px, 0);
+  }
+  .power .multiple-apps figure img {
+    width: 682px;
+  }
+  .power .multiple-apps figcaption {
+    transform: scale(.8) translate(532px, -58px);
+  }
+  .power .arcade {
+    margin-top: 0;
+  }
+  .power .arcade .figures {
+    height: 480px;
+  }
+  .power .arcade figure {
+    transform: translate(-182px, -6px);
+  }
+  .power .arcade figure img {
+    width: 676px;
+  }
+  .power .arcade figcaption {
+    transform: scale(.8) translate(316px, 528px);
+  }
+  .power .create .figures {
+    height: 588px;
+  }
+  .power .create figure {
+    transform: translate(4px, -36px);
+  }
+  .power .create figure img {
+    width: 820px;
+  }
+  .power .create figcaption {
+    transform: scale(.8) translate(420px, 747px);
+  }
+}
+
+@media (max-width: 740px) {
+  .power .multiple-apps h1 {
+    margin: 0 auto;
+    transform: none;
+  }
+  .power .multiple-apps .figures {
+    height: 340px;
+    margin-top: 50px;
+  }
+  .power .multiple-apps figure {
+    transform: translate(20px, 0);
+  }
+  .power .multiple-apps figure img {
+    width: 462px;
+  }
+  .power .multiple-apps figcaption {
+    transform: scale(.8) translate(112px, -45px);
+  }
+  .power .arcade {
+    /* 태블릿모드에서는 초기화했는데, 
+    모바일에서는 수직으로 다 쌓이다 보니까 외부 여백이 필요함 */
+    margin-top: 30px;
+  }
+  .power .arcade .figures {
+    /* 초기화 => 브라우저가 크기만큼 자동으로 계산해줌 */
+    height: auto;
+    margin-top: 20px;
+    /* 기본값이 0인데 1을 줘서 순서를 밀어서 
+    이미지 설명 이미지 설명 이런 순서가 되도록 함 */
+    order: 1;
+  }
+  .power .arcade figure {
+    transform: translate(20px, 0);
+  }
+  .power .arcade figure img {
+    width: 458px;
+  }
+  .power .arcade figcaption {
+    transform: scale(.8) translate(316px, 368px);
+  }
+  .power .create .figures {
+    height: auto;
+    margin-top: 20px;
+  }
+  .power .create figure {
+    transform: translate(100px, 0);
+  }
+  .power .create figure img {
+    width: 525px;
+  }
+  .power .create figcaption {
+    transform: scale(.8) translate(254px, 486px);
+  }
+}
+
 /* =============== DISPLAY =============== */
 .display {
   margin-top: 450px;
@@ -772,6 +1389,80 @@ main {
   width: 110px;
   height: 48px;
   transform: translate(300px, 658px);
+}
+
+@media (max-width: 1000px) {
+  .display {
+    margin-top: 180px;
+  }
+  .display .notes h1 {
+    width: 400px;
+    height: 240px;
+    transform: translate(120px, 0);
+  }
+  .display .notes .figures {
+    height: 530px;
+  }
+  .display .notes figure {
+    transform: translate(80px, -10px);
+  }
+  .display .notes figure img {
+    width: 676px;
+  }
+  .display .notes figcaption {
+    transform: scale(.8) translate(540px, -34px);
+  }
+  .display .shareplay .figures {
+    height: 330px;
+  }
+  .display .shareplay figure {
+    transform: translate(-178px, 0);
+  }
+  .display .shareplay figure img {
+    width: 682px;
+  }
+  .display .shareplay figcaption {
+    transform: scale(.8) translate(261px, 540px);
+  }
+}
+
+@media (max-width: 740px) {
+  .display .notes h1 {
+    background-image: url("../images/display_headline_mobile.png");
+    width: 290px;
+    height: 308px;
+    transform: none;
+    margin: 0 auto;
+  }
+  .display .notes .figures {
+    height: auto;
+    margin-top: 60px;
+  }
+  .display .notes figure {
+    transform: translate(20px, 0);
+  }
+  .display .notes figure img {
+    width: 458px;
+  }
+  .display .notes figcaption {
+    transform: scale(.8) translate(220px, -45px);
+  }
+  .display .shareplay {
+    margin-top: 30px;
+  }
+  .display .shareplay .figures {
+    height: auto;
+    order: 1;
+  }
+  .display .shareplay figure {
+    transform: translate(20px, 0);
+  }
+  .display .shareplay figure img {
+    width: 460px;
+  }
+  .display .shareplay figcaption {
+    transform: scale(.8) translate(261px, 358px);
+  }
 }
 
 /* =============== CAMERA =============== */
@@ -856,6 +1547,104 @@ main {
   transform: translate(27px, 905px);
 }
 
+@media (max-width: 1000px) {
+  .camera {
+    margin-top: 165px;
+  }
+  .camera .stage h1 {
+    width: 405px;
+    height: 270px;
+    transform: translate(0, 0);
+  }
+  .camera .stage .info {
+    top: 0;
+  }
+  .camera .stage .figures {
+    height: 500px;
+  }
+  .camera .stage figure img {
+    width: 678px;
+  }
+  .camera .stage video {
+    top: 23px;
+    left: 50px;
+    transform: scale(.65);
+    /* 기본 값은 50% 50%임(즉 가운데를 기준으로 함) */
+    transform-origin: 0 0;
+  }
+  .camera .stage .controller--play,
+  .camera .stage .controller--pause {
+    transform: translate(276px, -88px) rotate(-3deg);
+  }
+  .camera .stage figcaption {
+    transform: scale(.8) translate(-136px, 306px);
+  }
+  .camera .edit .figures {
+    height: auto;
+  }
+  .camera .edit figure {
+    transform: translate(40px, 0);
+  }
+  .camera .edit figure img {
+    width: 509px;
+  }
+  .camera .edit figcaption {
+    transform: scale(.8) translate(27px, 742px);
+  }
+}
+
+@media (max-width: 740px) {
+  .camera {
+    margin-top: 120px;
+  }
+  .camera .stage h1 {
+    background-image: url("../images/camera_headline_mobile.png");
+    width: 304px;
+    height: 350px;
+    margin: 0 auto;
+  }
+  .camera .stage .info {
+    /* 쌓이도록 할 거니까 초기화 */
+    position: static;
+    margin-top: 30px;
+  }
+  .camera .stage .figures {
+    height: auto;
+    margin-top: 64px;
+  }
+  .camera .stage figure {
+    transform: translate(20px, 0);
+  }
+  .camera .stage figure img {
+    width: 450px;
+  }
+  .camera .stage video {
+    transform: scale(.43);
+    top: 15px;
+    left: 33px;
+  }
+  .camera .stage .controller--play, 
+  .camera .stage .controller--pause {
+    transform: translate(169px, -51px) rotate(-3deg);
+  }
+  .camera .stage figcaption {
+    background-image: url("../images/camera_hardware_caption_mobile.png");
+    width: 175px;
+    height: 43px;
+    /* 이미지 자체를 모바일용으로 교체했으므로 비율 1로 초기화 */
+    transform: scale(1) translate(110px, -40px);
+  }
+  .camera .edit .figures {
+    margin-top: 30px;
+  }
+  .camera .edit figure img {
+    width: 343px;
+  }
+  .camera .edit figcaption {
+    transform: scale(.8) translate(27px, 502px);
+  }
+}
+
 /* =============== WIRELESS =============== */
 .wireless {
   margin-top: 202px;
@@ -888,6 +1677,70 @@ main {
   height: 46px;
   background-image: url("../images/wireless_files_caption.png");
   transform: translate(96px, 639px);
+}
+
+@media (max-width: 1000px) {
+  .wireless {
+    margin-top: 140px;
+  }
+  .wireless .facetime h1 {
+    width: 450px;
+    height: 200px;
+    transform: translate(70px, 0);
+  }
+  .wireless .facetime .figures {
+    height: 530px;
+  }
+  .wireless .facetime figure {
+    transform: translate(0, 0);
+  }
+  .wireless .facetime figure img {
+    width: 769px;
+  }
+  .wireless .facetime figcaption {
+    transform: scale(.8) translate(670px, -60px);
+  }
+  .wireless .files figure img {
+    width: 676px;
+  }
+  .wireless .files figcaption {
+    transform: scale(.8) translate(43px, 520px);
+  }
+}
+
+@media (max-width: 740px) {
+  .wireless {
+    margin-top: 120px;
+  }
+  .wireless .facetime h1 {
+    background-image: url("../images/wireless_headline_mobile.png");
+    width: 312px;
+    height: 223px;
+    transform: none;
+    margin: 0 auto;
+  }
+  .wireless .facetime .figures {
+    height: auto;
+    margin-top: 64px;
+  }
+  .wireless .facetime figure img {
+    width: 490px;
+  }
+  .wireless .facetime figcaption {
+    transform: scale(.8) translate(120px, -45px);
+  }
+  .wireless .files .figures {
+    margin-top: 30px;
+  }
+  .wireless .files figure {
+    transform: translate(20px, 0);
+  }
+  .wireless .files figure img {
+    width: 450px;
+  }
+  .wireless .files figcaption {
+    transform: scale(.8) translate(73px, 355px);
+  }
 }
 
 /* =============== ACCESSORIES =============== */
@@ -927,6 +1780,57 @@ main {
   flex-wrap: wrap;
   /* 주축에 대한 정렬을 빈 공간을 각 요소가 균등하게 나눠갖도록 */
   justify-content: space-around;
+}
+
+@media (max-width: 1000px) {
+  .accessories {
+    margin-top: 120px;
+  }
+  .accessories h1 {
+    width: 384px;
+    height: 243px;
+  }
+  .accessories .figures {
+    height: 700px;
+  }
+  .accessories figure {
+    transform: translate(12px, 0);
+  }
+  .accessories figure img {
+    width: 712px;
+  }
+  .accessories figcaption .caption-memo {
+    transform: scale(.8) translate(677px, -60px);
+  }
+  .accessories figcaption .caption-supports {
+    transform: scale(.8) translate(101px, 650px);
+  }
+}
+
+@media (max-width: 740px) {
+  .accessories h1 {
+    width: 300px;
+    height: 190px;
+  }
+  .accessories .figures {
+    height: auto;
+    margin-top: 64px;
+  }
+  .accessories figure img {
+    width: 380px;
+  }
+  .accessories figcaption .caption-memo {
+    transform: scale(.8) translate(186px, -58px);
+  }
+  .accessories figcaption .caption-supports {
+    background-image: url("../images/accessories_caption_supports_mobile.png");
+    width: 160px;
+    height: 44px;
+    transform: scale(1) translate(31px, 335px);
+  }
+  .accessories .infos {
+    margin-top: 100px;
+  }
 }
 
 /* =============== iPadOS =============== */
@@ -986,6 +1890,103 @@ main {
   height: 97px;
   background-image: url("../images/ipados_quick_note_caption.png");
   transform: translate(511px, 470px);
+}
+
+@media (max-width: 1000px) {
+  .ipados {
+    margin-top: 100px;
+  }
+  .ipados h1 {
+    width: 357px;
+    height: 274px;
+    /* margin: 0 auto를 0으로 */
+    margin: 0;
+  }
+  .ipados .infos {
+    /* 음수값을 할당해서 위로 끌어올린다. */
+    margin-top: -98px;
+  }
+  .ipados .figures {
+    height: 520px;
+  }
+  .ipados .figure-split-view figure {
+    transform: translate(-17px, -187px);
+  }
+  .ipados .figure-split-view figure img {
+    width: 441px;
+  }
+  .ipados .figure-split-view figcaption {
+    transform: scale(.8) translate(30px, -50px);
+  }
+  .ipados .figure-widgets figure {
+    transform: translate(180px, 3px);
+  }
+  .ipados .figure-widgets figure img {
+    width: 441px;
+  }
+  .ipados .figure-widgets figcaption {
+    transform: scale(.8) translate(152px, 345px);
+  }
+  .ipados .figure-quick-note figure {
+    transform: translate(-346px, 119px);
+  }
+  .ipados .figure-quick-note figure img {
+    width: 333px;
+  }
+  .ipados .figure-quick-note figcaption {
+    transform: scale(.8) translate(350px, 310px);
+  }
+}
+
+@media (max-width: 740px) {
+  .ipados h1 {
+    width: 300px;
+    height: 227px;
+    margin: 0 auto;
+  }
+  .ipados .infos {
+    margin-top: 30px;
+  }
+  .ipados .figures {
+    /* 모바일이므로 flex에서 block으로 해서 수직으로 쌓이도록 */
+    display: block;
+    height: auto;
+  }
+  .ipados .figures > div {
+    /* 각각 3개의 div는 flex로 해서 가운데 정렬*/
+    display: flex;
+    justify-content: center;
+  }
+  .ipados .figure-split-view figure {
+    transform: translate(64px, 55px);
+  }
+  .ipados .figure-split-view figure img {
+    width: 370px;
+  }
+  .ipados .figure-split-view figcaption {
+    transform: scale(.8) translate(39px, -55px);
+  }
+  .ipados .figure-widgets figure {
+    transform: translate(-19px, 34px);
+  }
+  .ipados .figure-widgets figure img {
+    width: 375px;
+  }
+  .ipados .figure-widgets figcaption {
+    transform: scale(.8) translate(252px, 287px);
+  }
+  .ipados .figure-quick-note figure {
+    transform: translate(35px, 46px);
+  }
+  .ipados .figure-quick-note figure img {
+    width: 283px;
+  }
+  .ipados .figure-quick-note figcaption {
+    background-image: url("../images/ipados_quick_note_caption_mobile.png");
+    width: 76px;
+    height: 88px;
+    transform: scale(1) translate(-65px, 250px);
+  }
 }
 
 /* =============== APPS =============== */
@@ -1054,6 +2055,137 @@ main {
   transform: translate(24px, 690px);
 }
 
+@media (max-width: 1000px) {
+  .apps {
+    margin-top: 120px;
+  }
+  .apps h1 {
+    width: 390px;
+    height: 208px;
+    transform: none;
+  }
+  .apps .infos {
+    /* 왼쪽 여백 초기화 */
+    margin-left: 0;
+  }
+  .apps .info {
+    max-width: 404px;
+  }
+  .apps .figures {
+    height: 450px;
+  }
+  .apps .figure-masterclass figure {
+    transform: translate(438px, -264px);
+  }
+  .apps .figure-masterclass figure img {
+    width: 330px;
+  }
+  .apps .figure-masterclass figcaption {
+    transform: scale(.8) translate(6px, 480px);
+  }
+  .apps .figure-adobe figure {
+    transform: translate(-230px, 20px);
+  }
+  .apps .figure-adobe figure img {
+    width: 438px;
+  }
+  .apps .figure-adobe figcaption {
+    transform: scale(.8) translate(324px, 355px);
+  }
+  .apps .figure-fantasian figure {
+    transform: translate(-40px, 160px);
+  }
+  .apps .figure-fantasian figure img {
+    width: 438px;
+  }
+  .apps .figure-fantasian figcaption {
+    transform: scale(.8) translate(14px, 339px);
+  }
+  .apps .figure-books figure {
+    transform: translate(43px, -94px);
+  }
+  .apps .figure-books figure img {
+    width: 330px;
+  }
+  .apps .figure-books figcaption {
+    transform: scale(.8) translate(252px, 493px);
+  }
+  .apps .figure-goodnotes figure {
+    transform: translate(3px, 28px);
+  }
+  .apps .figure-goodnotes figure img {
+    width: 346px;
+  }
+  .apps .figure-goodnotes figcaption {
+    transform: scale(.8) translate(5px, 483px);
+  }
+}
+
+@media (max-width: 740px) {
+  .apps h1 {
+    width: 320px;
+    height: 169px;
+    margin: 0 auto;
+  }
+  .apps .info {
+    max-width: none;
+  }
+  .apps .figures {
+    display: block;
+    height: auto;
+  }
+  .apps .figures > div {
+    display: flex;
+    justify-content: center;
+    height: 240px;
+  }
+  .apps .figure-masterclass figure {
+    transform: translate(140px, 40px);
+  }
+  .apps .figure-masterclass figure img {
+    width: 270px;
+  }
+  .apps .figure-masterclass figcaption {
+    transform: scale(.8) translate(29px, 400px);
+  }
+  .apps .figure-adobe figure {
+    transform: translate(-154px, -126px);
+  }
+  .apps .figure-adobe figure {
+    width: 358px;
+  }
+  .apps .figure-adobe figcaption {
+    transform: scale(.8) translate(233px, 295px);
+  }
+  .apps .figure-fantasian figure {
+    transform: translate(19px, -82px);
+  }
+  .apps .figure-fantasian figure img {
+    width: 358px;
+  }
+  .apps .figure-fantasian figcaption {
+    transform: scale(.8) translate(24px, 282px);
+  }
+  .apps .figure-books figure {
+    transform: translate(-100px, -40px);
+  }
+  .apps .figure-books figure img {
+    width: 270px;
+  }
+  .apps .figure-books figcaption {
+    transform: scale(.8) translate(197px, 407px);
+  }
+  .apps .figure-goodnotes figure {
+    transform: translate(132px, -110px);
+  }
+  .apps .figure-goodnotes figure img {
+    width: 286px;
+  }
+  .apps .figure-goodnotes figcaption {
+    transform: scale(.8) translate(24px, -37px);
+  }
+}
+
 /* =============== PRIVACY =============== */
 .privacy {
   margin-top: 238px;
@@ -1092,6 +2224,47 @@ main {
   transform: translate(533px, 485px);
 }
 
+@media (max-width: 1000px) {
+  .privacy {
+    margin-top: 120px;
+  }
+  .privacy h1 {
+    width: 368px;
+    height: 182px;
+    transform: translate(70px, 0);
+  }
+  .privacy .infos {
+    margin-top: 24px;
+  }
+  .privacy figure {
+    transform: translate(-18px, -440px);
+  }
+  .privacy figure img {
+    width: 441px;
+  }
+  .privacy figcaption .caption-apple-id {
+    transform: scale(.8) translate(-22px, -18px);
+  }
+  .privacy figcaption .caption-touch-id {
+    transform: scale(.8) translate(293px, 339px);
+  }
+}
+
+@media (max-width: 740px) {
+  .privacy h1 {
+    width: 277px;
+    height: 136px;
+    transform: none;
+    margin: 0 auto;
+  }
+  .privacy .figures {
+    margin-top: 30px;
+  }
+  .privacy figure {
+    transform: translate(20px, 0);
+  }
+}
+
 /* =============== ACCESSIBILITY =============== */
 .accessibility {
   margin-top: 266px;
@@ -1108,6 +2281,45 @@ main {
 }
 .accessibility figure {
   transform: translate(470px, -620px);
+}
+
+@media (max-width: 1000px) {
+  .accessibility {
+    margin-top: 86px;
+    margin-bottom: 120px;
+  }
+  .accessibility h1 {
+    width: 287px;
+    height: 205px;
+  }
+  .accessibility .info {
+    max-width: 346px;
+  }
+  .accessibility figure {
+    transform: translate(401px, -504px);
+  }
+  .accessibility figure img {
+    width: 329px;
+  }
+}
+
+@media (max-width: 740px) {
+  .accessibility {
+    margin-bottom: 50px;
+  }
+  .accessibility h1 {
+    height: 165px;
+    margin: 0 auto;
+  }
+  .accessibility .info {
+    max-width: none;
+  }
+  .accessibility .figures {
+    margin-top: 30px;
+  }
+  .accessibility figure {
+    transform: translate(20px, 0);
+  }
 }
 
 /* =============== AR =============== */
@@ -1129,6 +2341,28 @@ main {
   margin-right: 90px;
 }
 
+@media (max-width: 1000px) {
+  .ar .image {
+    width: 258px;
+  }
+}
+
+@media (max-width: 740px) {
+  .ar .inner {
+    flex-direction: column;
+    align-items: center;
+  }
+  .ar .inner > div {
+    max-width: none;
+    /* 가로너비가 좁으므로 위 좌우는 0 주고 아래쪽만 30px */
+    margin: 0 0 30px;
+    text-align: center;
+  }
+  .ar .icon {
+    margin: 0 auto 20px;
+  }
+}
+
 /* =============== ENVIRONMENT =============== */
 .environment {
   padding: 20px 20px 0;
@@ -1142,6 +2376,13 @@ main {
 .environment h1 {
   /* 얘는 여기서만 사용되므로, 따로 색상 변수로 설정하지 않음. */
   color: #03A10E;
+}
+
+@media (max-width: 1000px) {
+  /* 넣어놨던 br 태그를 안 보이게 */
+  .environment p br {
+    display: none;
+  }
 }
 
 /* =============== ACCESSORY SHOP =============== */
@@ -1161,11 +2402,23 @@ main {
   margin-top: 50px;
 }
 
+@media (max-width: 1000px) {
+  .accessory-shop img {
+    width: 960px;
+  }
+}
+
 /* =============== TRADE =============== */
 .trade {
   padding: 20px 20px 0;
   background-color: var(--color-section);
   text-align: center;
+}
+
+@media (max-width: 1000px) {
+  .trade p br {
+    display: none;
+  }
 }
 
 /* =============== COMPARE =============== */
@@ -1230,6 +2483,40 @@ main {
 }
 .compare .item a.link {
   font-size: 14px;
+}
+
+@media (max-width: 1000px) {
+  /* flex는 한줄에 수평으로 다 배치하려고 한다. 
+  이를 변경해주기 위해 flex-wrap을 주고 wrap을 
+  줘서 특정 길이까지만 가로로 나열되도록 조건을 건다. 
+  그리고 한줄에 2개 아이템만 보여줄거임. 
+  max-width를 적당히 조절해서 2개만 보여질 수 있게*/
+  .compare .items {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 500px;
+    /* 위 좌우 아래 */
+    margin: 68px auto 34px;
+  }
+}
+
+@media (max-width: 740px) {
+  .compare .whitebox {
+    max-width: 430px;
+  }
+  .compare .items {
+    max-width: 190px;
+  }
+  .compare .item {
+    border-bottom: none;
+  }
+  .compare .links {
+    padding-top: 40px;
+    border-top: 1px solid var(--color-border);
+  }
+  .compare a.link {
+    margin-top: 0;
+  }
 }
 
 /* =============== FOOTER =============== */
@@ -1339,6 +2626,9 @@ footer .navigations .map h3 {
   font-size: 12px;
   font-weight: 600;
 }
+footer .navigations .map h3 .icon {
+  display: none;
+}
 footer .navigations .map li {
   margin-top: 12px;
   font-size: 12px;
@@ -1393,7 +2683,92 @@ footer .legal ul li:hover a {
   text-decoration: underline;
 }
 
+@media (max-width: 1000px) {
+  footer .inner {
+    max-width: none;
+  }
+  footer .legal {
+    /* 수직으로 쌓을 거라서 */
+    flex-direction: column;
+    /* 간격도 50에서 10으로 줄이고 */
+    gap: 10px;
+    padding: 10px 0 30px;
+  }
+  footer .legal .locale {
+    margin-top: 14px;
+  }
+}
 
+@media (max-width: 740px) {
+  footer .buy-info {
+    /* 줄바꿈 가능하게 하려고 */
+    flex-wrap: wrap;
+  }
+  footer .navigations {
+    /* 수직으로 전부 쌓을거니까 간격도 최대한 줄여야 해서 */
+    height: auto;
+    /* 수직으로 쌓으려고 */
+    display: block;
+  }
+  footer .navigations .map {
+    margin-top: 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+  footer .navigations .map:nth-child(6) {
+    /* 레이아웃 맞추려고 간격 엄청 줬던 것도 초기화 */
+    padding-bottom: 0;
+  }
+  footer .navigations .map h3 {
+    padding: 12px 0;
+    font-weight: 400;
+    display: flex;
+  }
+  footer .navigations .map:hover h3 {
+    font-weight: 600;
+  }
+  footer .navigations .map h3 .text {
+    /* h3의 자식으로 .text와 .icon이 있는데 
+    .text의 증가비율을 0에서 1로 바꿔주면 최대한 늘어나면서
+    .icon이 끝으로 밀려나게 된다. */
+    flex-grow: 1;
+  }
+  footer .navigations .map h3 .icon {
+    /* span 태그니까 초기화할 때 block으로 */
+    display: block;
+    padding: 0 10px;
+    color: var(--color-font-darkgray);
+  }
+  footer .navigations .map ul {
+    height: 0;
+    overflow: hidden;
+    /* 전환 효과를 all이 아니라 개별 속성에 각각 다르게 */
+    transition: 
+      transform .6s, 
+      opacity .4s;
+    transform: translate(0, -20px);
+    opacity: 0;
+  }
+  footer .navigations .map.active ul {
+    /* 0에서 화면에 보일 수 있는 구조로 */
+    height: auto;
+    overflow: visible;
+    padding: 6px 0 18px;
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+  footer .navigations .map.active h3 .icon {
+    transform: scale(1.2) rotate(45deg);
+  }
+  footer .legal ul {
+    /* 줄바꿈 가능하도록 */
+    flex-wrap: wrap;
+    /* 원래 위아래좌우 전부 21에서 => 위아래6 좌우21로 */
+    /* 왜냐면 그 전에는 줄바꿈 처리할 필요가 없어서 21만 써도 됐음. */
+    gap: 6px 21px;
+  }
+}
+
+/* =============== Sprite Image =============== */
 
 @keyframes sprite-icon {
   /* 1~10 */

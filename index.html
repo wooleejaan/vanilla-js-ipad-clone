@@ -56,6 +56,16 @@
     <header>
       <div class="inner">
         <ul class="menu">
+          <!-- max-width: 740px일 때만 나타날 메뉴 -->
+          <li class="menu-starter">
+            <!-- 여기서 a 태그는 구조만 맞추는 거라 href는 지워도 됨 -->
+            <a>
+              <div>
+                <span></span>
+                <span></span>
+              </div>
+            </a>
+          </li>
           <!-- li 태그들을 실제로 버튼을 누르면 이동이 가능해야 하므로 a태그를 li에 넣어줘야 한다. -->
           <li class="apple-logo"><a href="javascript:void(0)">Apple</a></li>
           <li><a href="javascript:void(0)">스토어</a></li>
@@ -92,6 +102,7 @@
               <div class="search-icon"></div>
               <div class="search-closer"></div>
             </div>
+            <div class="search-canceler">취소</div>
             <div class="autocompletes">
               <h3>빠른 링크</h3>
               <ul>
@@ -112,13 +123,30 @@
             </div>
           </div>
         </div>
+
+        <div class="clone-menu">
+          <ul>
+            <li><a href="javascript:void(0)">스토어</a></li>
+            <li><a href="javascript:void(0)">Mac</a></li>
+            <li><a href="javascript:void(0)">iPad</a></li>
+            <li><a href="javascript:void(0)">iPhone</a></li>
+            <li><a href="javascript:void(0)">Watch</a></li>
+            <li><a href="javascript:void(0)">Airpods</a></li>
+            <li><a href="javascript:void(0)">Apple 독점 제공</a></li>
+            <li><a href="javascript:void(0)">액세서리</a></li>
+            <li><a href="javascript:void(0)">고객지원</a></li>
+          </ul>
+        </div>
       </div>
     </header>
 
     <!-- NAVIGATION -->
     <nav>
+      <div class="shadow"></div>
+      <div class="contents-bg"></div>
       <div class="inner">
         <h1>iPad</h1>
+        <div class="menu-toggler"></div>
         <ul class="menu">
           <li class="active"><a href="javascript:void(0)">개요</a></li>
           <li><a href="javascript:void(0)">iPad를 선택하는 이유</a></li>
@@ -161,7 +189,7 @@
           </div>
         </div>
       </section>
-  
+
       <!-- POWER -->
       <section class="power">
         <div class="inner">
@@ -177,7 +205,7 @@
               </figure>
             </div>
           </div>
-  
+
           <div class="arcade feature">
             <div class="figures">
               <figure>
@@ -190,7 +218,7 @@
                 </figcaption>
               </figure>
             </div>
-  
+
             <div class="infos infos--center">
               <div class="info">
                 <div class="icon icon--chip"></div>
@@ -208,7 +236,7 @@
               </div>
             </div>
           </div>
-  
+
           <div class="create feature">
             <div class="infos infos--end">
               <div class="info">
@@ -221,8 +249,8 @@
               <div class="info">
                 <div class="icon icon--apps"></div>
                 <p>
-                  A13 Bionic 칩은 Adobe Fresco, Procreate와 같은 첨단 앱도 거뜬히
-                  구동합니다.
+                  A13 Bionic 칩은 Adobe Fresco, Procreate와 같은 첨단 앱도
+                  거뜬히 구동합니다.
                 </p>
               </div>
               <div class="info">
@@ -249,7 +277,7 @@
           </div>
         </div>
       </section>
-  
+
       <!-- DISPLAY -->
       <section class="display">
         <div class="inner">
@@ -261,11 +289,13 @@
                   src="./images/display_notes.jpg"
                   alt="iPad의 Goodnotes 5 앱에서 편집 중인 손글씨 필기"
                 />
-                <figcaption class="bgtext">노트 필기는 GOODNOTES 5로</figcaption>
+                <figcaption class="bgtext">
+                  노트 필기는 GOODNOTES 5로
+                </figcaption>
               </figure>
             </div>
           </div>
-  
+
           <div class="shareplay feature">
             <div class="figures">
               <figure>
@@ -282,8 +312,8 @@
                 <p>
                   놀랍도록 섬세한 디테일과 생생한 색상을 자랑하는 25.9cm Retina
                   디스플레이를 갖춘 iPad.<sup><a href="#footnote2">2</a></sup>
-                  영화를 감상할 때도, 프로젝트를 진행할 때도 또는 멋진 그림을 그릴
-                  때도 더할 나위 없죠.
+                  영화를 감상할 때도, 프로젝트를 진행할 때도 또는 멋진 그림을
+                  그릴 때도 더할 나위 없죠.
                 </p>
               </div>
               <div class="info">
@@ -297,7 +327,7 @@
           </div>
         </div>
       </section>
-  
+
       <!-- CAMERA -->
       <section class="camera">
         <div class="inner">
@@ -308,9 +338,10 @@
             <div class="info">
               <div class="icon icon--center-stage"></div>
               <p>
-                센터 스테이지 기술이 영상 통화 시 당신이 언제나 화면 중앙에 있도록
-                자동으로 카메라를 조정해 줍니다. 덕분에 서로에게 더 집중할 수 있게
-                되죠. SNS에 올릴 재미난 동영상을 만들 때도 요긴하답니다.
+                센터 스테이지 기술이 영상 통화 시 당신이 언제나 화면 중앙에
+                있도록 자동으로 카메라를 조정해 줍니다. 덕분에 서로에게 더
+                집중할 수 있게 되죠. SNS에 올릴 재미난 동영상을 만들 때도
+                요긴하답니다.
               </p>
             </div>
             <!-- 이미지 -->
@@ -338,7 +369,7 @@
               </figure>
             </div>
           </div>
-  
+
           <div class="edit feature">
             <!-- 정보 -->
             <div class="infos infos--center">
@@ -380,7 +411,7 @@
           </div>
         </div>
       </section>
-  
+
       <!-- WIRELESS -->
       <section class="wireless">
         <div class="inner">
@@ -398,7 +429,7 @@
               </figure>
             </div>
           </div>
-  
+
           <div class="files feature">
             <!-- 정보 -->
             <div class="infos">
@@ -443,7 +474,7 @@
           </div>
         </div>
       </section>
-  
+
       <!-- ACCESSORIES -->
       <section class="accessories">
         <div class="inner">
@@ -473,8 +504,8 @@
               <div class="icon icon--pencil"></div>
               <p>
                 Apple Pencil은 실제 펜으로 종이에 쓰듯 자연스러운 느낌을
-                선사합니다. 동시에 당신의 손글씨를 키보드로 입력한 텍스트만큼이나
-                강력하게 만들어주는 탁월한 역량을 자랑하죠.<sup
+                선사합니다. 동시에 당신의 손글씨를 키보드로 입력한
+                텍스트만큼이나 강력하게 만들어주는 탁월한 역량을 자랑하죠.<sup
                   ><a href="#footnote4">4</a></sup
                 >
               </p>
@@ -482,8 +513,8 @@
             <div class="info">
               <div class="icon icon--keyboard"></div>
               <p>
-                얇고 가벼운 Smart Keyboard를 부착해 편안하게 타이핑하세요. 리포트
-                작성, 업무 기획 등에 딱이죠.
+                얇고 가벼운 Smart Keyboard를 부착해 편안하게 타이핑하세요.
+                리포트 작성, 업무 기획 등에 딱이죠.
               </p>
             </div>
             <div class="info">
@@ -510,7 +541,7 @@
           </div>
         </div>
       </section>
-  
+
       <!-- iPadOS -->
       <section class="ipados">
         <div class="inner">
@@ -565,13 +596,15 @@
                   src="./images/ipados_quick_note.png"
                   alt="Safari의 빠른 메모"
                 />
-                <figcaption class="bgtext">어디서나 남기는 빠른 메모</figcaption>
+                <figcaption class="bgtext">
+                  어디서나 남기는 빠른 메모
+                </figcaption>
               </figure>
             </div>
           </div>
         </div>
       </section>
-  
+
       <!-- APPS -->
       <section class="apps">
         <div class="inner">
@@ -584,9 +617,9 @@
               <p>
                 iPad에는 이미 ‘사진’, ‘지도’, ‘메시지’, Mail, Safari 등 강력한
                 Apple 제작 앱들이 가득 담겨있습니다. 게다가 100만 개 이상의 iPad
-                전용 앱이 준비된 App Store에서는 어떤 작업이든 걸맞은 앱을 찾을 수
-                있죠. 비트를 찍거나, 운동을 하거나, 뉴스를 읽을 수도 있습니다.
-                심심할 땐 친구들과 신나는 게임 한 판을 즐길 수도 있죠.
+                전용 앱이 준비된 App Store에서는 어떤 작업이든 걸맞은 앱을 찾을
+                수 있죠. 비트를 찍거나, 운동을 하거나, 뉴스를 읽을 수도
+                있습니다. 심심할 땐 친구들과 신나는 게임 한 판을 즐길 수도 있죠.
               </p>
               <a class="link" href="javascript:void(0)"
                 >App Store에서 iPad용 앱 찾아보기</a
@@ -645,7 +678,7 @@
           </div>
         </div>
       </section>
-  
+
       <!-- PRIVACY -->
       <section class="privacy">
         <div class="inner">
@@ -655,9 +688,9 @@
           <div class="infos infos--large">
             <div class="info">
               <p>
-                다른 모든 Apple 제품과 마찬가지로 iPad 역시 당신의 개인 정보 보호
-                및 보안을 염두에 두고 설계되었습니다. 결코 쉽지만은 않은 작업이죠.
-                하지만 그런 것만이 진정한 혁신이라 우리는 믿습니다.
+                다른 모든 Apple 제품과 마찬가지로 iPad 역시 당신의 개인 정보
+                보호 및 보안을 염두에 두고 설계되었습니다. 결코 쉽지만은 않은
+                작업이죠. 하지만 그런 것만이 진정한 혁신이라 우리는 믿습니다.
               </p>
               <a href="javascript:void(0)" class="link">
                 <!-- br 태그는 p 태그에서는 안 쓰고 a 태그에서만 쓴다. -->
@@ -679,7 +712,7 @@
           </div>
         </div>
       </section>
-  
+
       <!-- ACCESSIBILITY -->
       <section class="accessibility">
         <div class="inner">
@@ -687,11 +720,11 @@
           <div class="infos infos--large">
             <div class="info">
               <p>
-                누구나 사용할 수 있는 기술이야말로 가장 강력한 기술입니다. iPad에
-                시각, 청각, 운동 및 인지능력 등을 보완해주는 손쉬운 사용 기능을
-                탑재한 이유도 바로 그 때문이죠. 그룹 FaceTime 통화 중 수어를
-                사용하는 사람이 있는 경우, 그 사람이 이야기 중인 것을 알 수 있도록
-                해당 타일을 더 크게 표시해주는 것이 좋은 예입니다.
+                누구나 사용할 수 있는 기술이야말로 가장 강력한 기술입니다.
+                iPad에 시각, 청각, 운동 및 인지능력 등을 보완해주는 손쉬운 사용
+                기능을 탑재한 이유도 바로 그 때문이죠. 그룹 FaceTime 통화 중
+                수어를 사용하는 사람이 있는 경우, 그 사람이 이야기 중인 것을 알
+                수 있도록 해당 타일을 더 크게 표시해주는 것이 좋은 예입니다.
               </p>
               <a href="javascript:void(0)" class="link"
                 >모든 손쉬운 사용 기능 살펴보기</a
@@ -708,7 +741,7 @@
           </div>
         </div>
       </section>
-  
+
       <!-- AR -->
       <section class="ar">
         <div class="whitebox">
@@ -723,7 +756,7 @@
           </div>
         </div>
       </section>
-  
+
       <!-- ENVIRONMENT -->
       <section class="environment">
         <div class="whitebox">
@@ -749,7 +782,7 @@
           </div>
         </div>
       </section>
-  
+
       <!-- ACCESSORY SHOP -->
       <section class="accessory-shop">
         <div class="whitebox whitebox--transparent">
@@ -759,7 +792,8 @@
               액세서리.
             </h1>
             <p>
-              케이스, 커버, Apple Pencil, AirPods 등 다양한 액세서리를 만나보세요.
+              케이스, 커버, Apple Pencil, AirPods 등 다양한 액세서리를
+              만나보세요.
             </p>
             <a href="javascript:void(0)" class="link">iPad 액세서리 쇼핑하기</a>
             <img
@@ -769,7 +803,7 @@
           </div>
         </div>
       </section>
-  
+
       <!-- TRADE -->
       <section class="trade">
         <div class="whitebox">
@@ -784,11 +818,13 @@
               기기의 가치를 최대한 활용하는 것, 당신은 물론 지구에게도 좋은
               일이죠.
             </p>
-            <a href="javascript:void(0)" class="link">보상 판매 가격 알아보기</a>
+            <a href="javascript:void(0)" class="link"
+              >보상 판매 가격 알아보기</a
+            >
           </div>
         </div>
       </section>
-  
+
       <!-- COMPARE -->
       <section class="compare">
         <div class="whitebox">
@@ -806,7 +842,7 @@
           </div>
         </div>
       </section>
-  
+
       <!-- FOOTER -->
       <footer>
         <div class="inner">
@@ -858,13 +894,13 @@
               <li id="footnote*">
                 * 보상 판매 프로그램은 Apple의 파트너이자 독립적으로 운영되는
                 제3의 업체에 의해 제공됩니다. Apple 및 Apple의 계열사는 고객과
-                파트너 간 계약의 당사자가 아닙니다. 보상 판매 금액은 보상 판매되는
-                iPad의 상태 및 모델에 따라 달라집니다. 19세 이상이어야 합니다.
-                일부 매장에서는 본 프로그램을 이용할 수 없으며, 일부 기기는 보상
-                판매 대상이 아닙니다. Apple은 어떤 보상 판매도 거래를 거부하거나,
-                제한할 귄리를 보유합니다. 새 Apple 기기 구매 시, 현재 소유한
-                기기의 가치만큼 할인을 받을 수도 있습니다. 추가 약관은
-                apple.com/kr/trade-in을 참고하십시오.
+                파트너 간 계약의 당사자가 아닙니다. 보상 판매 금액은 보상
+                판매되는 iPad의 상태 및 모델에 따라 달라집니다. 19세 이상이어야
+                합니다. 일부 매장에서는 본 프로그램을 이용할 수 없으며, 일부
+                기기는 보상 판매 대상이 아닙니다. Apple은 어떤 보상 판매도
+                거래를 거부하거나, 제한할 귄리를 보유합니다. 새 Apple 기기 구매
+                시, 현재 소유한 기기의 가치만큼 할인을 받을 수도 있습니다. 추가
+                약관은 apple.com/kr/trade-in을 참고하십시오.
               </li>
             </ul>
             <!-- ol은 순서가 있는 목록이므로 앞에 번호 붙음 -->

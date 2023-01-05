@@ -1,5 +1,5 @@
 import ipads from "../data/ipads.js";
-import navigations  from "../data/navigations.js";
+import navigations from "../data/navigations.js";
 
 /* =============== 장바구니 =============== */
 const basketStarterEl = document.querySelector("header .basket-starter");
@@ -54,7 +54,11 @@ const searchDelayEls = [...searchWrapEl.querySelectorAll("li")];
 // })
 // 위처럼 익명함수를 쓸 필요 없음.
 searchStarterEl.addEventListener("click", showSearch);
-searchCloserEl.addEventListener("click", hideSearch);
+// searchCloserEl.addEventListener("click", hideSearch);
+searchCloserEl.addEventListener("click", function(event) {
+  event.stopPropagation()
+  hideSearch()
+});
 // 바깥 부분을 눌러도 검색창이 닫혀야 하므로 .shadow를 클릭해도 닫힐 수 있게
 searchShadowEl.addEventListener("click", hideSearch);
 
@@ -62,7 +66,8 @@ function showSearch() {
   headerEl.classList.add("searching");
   // document.body면 body 태그, document.head면 head 태그
   // documentElement는 html 문서의 최상위 요소 === html 태그
-  document.documentElement.classList.add("fixed");
+  // document.documentElement.classList.add("fixed");
+  stopScroll();
 
   // 검색창을 보여줄 때 메뉴 목록을 오른쪽부터 지워야 한다 == 오른쪽이면 index가 끝에서 시작하므로
   headerMenuEls.reverse().forEach(function (el, idx) {
@@ -85,7 +90,8 @@ function showSearch() {
 
 function hideSearch() {
   headerEl.classList.remove("searching");
-  document.documentElement.classList.remove("fixed");
+  // document.documentElement.classList.remove("fixed");
+  playScroll();
 
   // 검색창을 지울 때 메뉴 목록이 왼쪽부터 등장해야 한다 == 한번 더 뒤집어 주면 된다
   headerMenuEls.reverse().forEach(function (el, idx) {
@@ -100,6 +106,83 @@ function hideSearch() {
   searchDelayEls.reverse();
   // 검색 창 입력내용 초기화
   searchInputEl.value = "";
+}
+
+function playScroll() {
+  document.documentElement.classList.remove("fixed");
+}
+function stopScroll() {
+  document.documentElement.classList.add("fixed");
+}
+
+/* =============== 헤더 메뉴 토글 =============== */
+const menuStarterEl = document.querySelector("header .menu-starter");
+menuStarterEl.addEventListener("click", function () {
+  // header 클래스에 메뉴를 선택했다는 걸 표시해둘 거임.
+  if (headerEl.classList.contains("menuing")) {
+    headerEl.classList.remove("menuing");
+    searchInputEl.value = "";
+    playScroll();
+  } else {
+    headerEl.classList.add("menuing");
+    stopScroll();
+  }
+});
+
+/* =============== 헤더 검색 =============== */
+const searchTextFieldEl = document.querySelector('header .textfield')
+const searchCancelEl = document.querySelector('header .search-canceler')
+
+searchTextFieldEl.addEventListener('click', function () {
+  headerEl.classList.add("searching--mobile")
+  searchInputEl.focus()
+})
+searchCancelEl.addEventListener('click', function () {
+  headerEl.classList.remove("searching--mobile")
+})
+
+// 
+window.addEventListener("resize", function () {
+  if(window.innerWidth <= 740){
+    headerEl.classList.remove("searching")
+  } else {
+    headerEl.classList.remove("searching--mobile")
+  }
+})
+
+// 
+const navEl = document.querySelector('nav')
+const navMenuToggleEl = navEl.querySelector('.menu-toggler')
+const navMenuShadowEl = navEl.querySelector('.shadow')
+
+navMenuToggleEl.addEventListener('click', function () {
+  if(navEl.classList.contains("menuing")) {
+    hideNavMenu()
+  } else {
+    showNavMenu()
+  }
+})
+// navigation 영역을 클릭하는 게 window를 클릭하는 게 아니도록 하기 위해서 
+navEl.addEventListener('click', function (event) {
+  event.stopPropagation()
+})
+// 근데 익명함수 안에 넣을 게 함수 하나면 익명 함수를 쓰지 않아도 되므로 
+// navMenuShadowEl.addEventListener('click', function (event) {
+//   hideNavMenu()
+// })
+navMenuShadowEl.addEventListener('click', hideNavMenu)
+
+// 화면을 클릭하면 (즉, 쉐도우 영역 말고 그 위 부분을 클릭해도 메뉴가 닫히도록 하려고)
+// window.addEventListener('click', function () {
+//   hideNavMenu()
+// })
+window.addEventListener('click', hideNavMenu)
+
+function showNavMenu() {
+  navEl.classList.add("menuing")
+}
+function hideNavMenu() {
+  navEl.classList.remove("menuing")
 }
 
 /* =============== 요소의 가시성 관찰 =============== */
@@ -169,33 +252,45 @@ ipads.forEach(function (ipad) {
 });
 
 /* =============== 네비게이션 렌더링 =============== */
-const navigationEl = document.querySelector('footer .navigations')
+const navigationEl = document.querySelector("footer .navigations");
 
 navigations.forEach(function (nav) {
-  const mapEl = document.createElement('div')
-  mapEl.classList.add('map')
+  const mapEl = document.createElement("div");
+  mapEl.classList.add("map");
 
-  let mapList = ''
+  let mapList = "";
   nav.maps.forEach(function (map) {
     mapList += /* html */ `
       <li>
         <a href="${map.url}">${map.name}</a>
       </li>
-    `
-  })
+    `;
+  });
 
   mapEl.innerHTML = /* html */ `
     <h3>
       <span class="text">${nav.title}</span>
+      <span class="icon">+</span>
     </h3>
     <ul>
       ${mapList}
     </ul>
-  `
-  // 넣어주지 않으면 요소가 메모리 상에만 존재한다. 
-  navigationEl.append(mapEl)
-})
+  `;
+  // 넣어주지 않으면 요소가 메모리 상에만 존재한다.
+  navigationEl.append(mapEl);
+});
 
 /* =============== 기타 정보 / this-year =============== */
-const thisYearEl = document.querySelector('span.this-year')
-thisYearEl.textContent = new Date().getFullYear()
+const thisYearEl = document.querySelector("span.this-year");
+thisYearEl.textContent = new Date().getFullYear();
+
+// 아코디언 메뉴 (Accordion Menu)
+const mapEls = document.querySelectorAll('footer .navigations .map')
+
+mapEls.forEach(function (el) {
+  const h3El = el.querySelector('h3')
+
+  h3El.addEventListener('click', function () {
+    el.classList.toggle('active')
+  })
+})
